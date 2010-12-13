@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="collective.portaltabs">
+
+  <five:registerPackage package="." />
+  <i18n:registerTranslations directory="locales" />
+
+  <include package=".browser" />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="collective.portaltabs"
+      directory="profiles/default"
+      description="Product for customize from Plone the portal tabs section"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+</configure>

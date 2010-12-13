@@ -1,0 +1,94 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="collective.portaltabs">
+
+<body>
+
+<div metal:fill-slot="prefs_configlet_main">
+
+    <h1 class="documentFirstHeading"
+        i18n:translate="heading_portaltabs_setup">Portal Tabs Settings</h1>
+
+    <a href=""
+       class="link-parent"
+       tal:attributes="href string:$portal_url/plone_control_panel"
+	   i18n:domain="plone"
+       i18n:translate="label_up_to_plone_setup">
+        Up to Site Setup
+    </a>
+
+    <p i18n:translate="description_portaltabs_setup">
+        Lets you control portal tabs of the site.
+    </p>
+    
+    <form action=""
+          id="portaltabs_setup"
+          method="post"
+		  class="enableFormTabbing enableUnloadProtection"
+		  tal:define="actions view/actions"
+          tal:attributes="action string:${context/absolute_url}/@@manage-portaltabs;
+		                  class python:len(actions)>1 and 'enableFormTabbing enableUnloadProtection' or 'enableUnloadProtection'">
+
+		<div>
+	        <fieldset tal:repeat="action actions"
+			          tal:attributes="id string:fieldset-${action/id}">
+	            <legend tal:content="action/title"
+				        tal:attributes="id string:fieldsetlegend-${action/id}">Portal tabs</legend>
+	
+				<tal:tabs repeat="tab action/tabs">
+				<div tal:define="ind repeat/tab/number" class="tabSetup">
+					<label tal:attributes="for string:tab-$ind-id;" tal:content="tab/id">Home</label>
+					<input type="hidden" name="id:list"
+					       tal:attributes="value tab/id;
+						                   id string:tab-$ind-id;" />
+					<input type="hidden" name="action:list" tal:attributes="value action/id" />
+		            <div class="field">
+						<input type="text" size="50" name="title:list"
+						       tal:attributes="value tab/title;
+							                   id string:tab-$ind-title;" />
+						<label tal:attributes="for string:tab-$ind-title;" i18n:translate="">Title</label>
+		            </div>
+		            <div class="field">
+						<input type="text" size="50" name="url:list" id="url"
+						       tal:attributes="value tab/url;
+							                   id string:tab-$ind-url;" />
+						<label tal:attributes="for string:tab-$ind-url;" i18n:translate="">URL</label>
+		            </div>
+				</div>
+				</tal:tabs>
+	            
+	        </fieldset>
+			<input type="submit" class="context" name="Save" value="Save" i18n:attributes="value" />
+		</div>
+    </form>
+	
+	<form>
+		<div>
+		<fieldset>
+			<legend i18n:translate="">New tab</legend>
+
+				<div class="tabSetupNew">
+		            <div class="field">
+						<input type="text" size="50" name="newtitle" id="newtitle"
+						       tal:attributes="value view/request/newtitle|nothing"/>
+							   <label for="newtitle" i18n:translate="">Title</label>
+		            </div>
+		            <div class="field">
+						<input type="text" size="50" name="newurl" id="newurl"
+						       tal:attributes="value view/request/newurl|nothing"/>
+							   <label for="newurl" i18n:translate="">URL</label>
+		            </div>
+				</div>
+
+		</fieldset>
+		<input type="submit" class="context" name="Add" value="Add" i18n:attributes="value" />
+		</div>
+	</form>
+
+</div>
+
+</body>
+</html>
