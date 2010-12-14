@@ -65,6 +65,7 @@ class ManagePortaltabsView(BrowserView):
             tabs.append({'id': t.id,
                          'title': t.title,
                          'url': self._prettify(t.getProperty('url_expr','')),
+                         'visible': t.getProperty('visible', False),
                          })
         return tabs
     
@@ -101,10 +102,14 @@ class ManagePortaltabsView(BrowserView):
         ids = form.get('id', [])
         titles = form.get('title', [])
         urls = form.get('url', [])
+        visibles = form.get('visible', [])
         i = 0
         for a in actions:
             action_category = portal_actions[a]
-            action_category[ids[i]].manage_changeProperties(**{'title': titles[i], 'url_expr': self._tallify(urls[i])})
+            action_category[ids[i].split("|")[1]].manage_changeProperties(**{'title': titles[i],
+                                                               'url_expr': self._tallify(urls[i]),
+                                                               'visible': ids[i] in visibles,
+                                                               })
             i+=1
         return _(u'Change saved')
     

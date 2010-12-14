@@ -113,7 +113,7 @@ msgstr "Gestione dei Tab del sito"
 #. Default: "Please, select also in what action category you want to add the new tab."
 #: ./browser/manage_portaltabs.pt:144
 msgid "help_portaltabs_categorysel"
-msgstr "Prego, seleziona anche in quale categoria di actioni vuoi aggiungere il tab."
+msgstr "Prego, seleziona anche in quale categoria di azioni vuoi aggiungere il tab."
 
 #. Default: "Optional, if not provided will be generated from the title."
 #: ./browser/manage_portaltabs.pt:172

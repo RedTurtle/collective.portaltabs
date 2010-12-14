@@ -3,11 +3,11 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.1.0'
+version = '0.1.0a'
 
 setup(name='collective.portaltabs',
       version=version,
-      description="Manage portal tabs from Plone using a non-technical approach",
+      description="Manage portal tabs from Plone hiding difficulties",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
@@ -19,7 +19,7 @@ setup(name='collective.portaltabs',
       keywords='plone portal-tabs',
       author='RedTurtle Technology',
       author_email='sviluppoplone@redturtle.net',
-      url='http://svn.plone.org/svn/collective/collective.portaltabs',
+      url='http://plone.org/products/collective.portaltabs',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['collective'],

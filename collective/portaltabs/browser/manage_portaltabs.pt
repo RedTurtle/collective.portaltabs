@@ -65,7 +65,7 @@
 			     tal:attributes="class python:'tabSetup ' + (even and 'odd' or 'even')">
 				<label tal:attributes="for string:tab-$ind-id;" tal:content="tab/id">Home</label>
 				<input type="hidden" name="id:list"
-				       tal:attributes="value tab/id;id string:tab-$ind-id;" />
+				       tal:attributes="value string:${action/id}|${tab/id};id string:tab-$ind-id;" />
 				<input type="hidden" name="action:list" tal:attributes="value action/id" />
 	            <div class="field">
 					<label tal:attributes="for string:tab-$ind-title;" i18n:translate="">Title</label>
@@ -84,6 +84,11 @@
 							 i18n:translate="label_required">(Required)</span><br/>
 					<input type="text" size="50" name="url:list" id="url"
 					       tal:attributes="value tab/url;id string:tab-$ind-url;" />
+	            </div>
+	            <div class="field">
+					<input type="checkbox" name="visible"
+					       tal:attributes="id string:tab-$ind-visible;checked python:tab['visible'] and True or False;value string:${action/id}|${tab/id}" />
+						   <label tal:attributes="for string:tab-$ind-visible;" i18n:translate="">Visible?</label>
 	            </div>
 				<div class="field commands">
 					<a href="" title="Delete this tab" i18n:attributes="title"
@@ -134,7 +139,6 @@
 			<legend i18n:translate="">New tab</legend>
 
 				<div class="tabSetupNew" tal:define="categories view/defaults">
-					
 					<div class="field" tal:condition="python:len(categories)>1">
 						<select name="action">
 							<option tal:repeat="category categories"
