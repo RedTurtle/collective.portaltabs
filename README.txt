@@ -11,16 +11,16 @@ manage the *portal tabs* section of your Plone site.
 
 Going deeply:
 
-* you don't want that your user go to ZMI
+* you don't want that your users (even if Manager) go to ZMI
 * you users don't know nothing about TAL and python, and commonly want only to add static
-  link to the site
+  links to the site
 * your additional tab don't need advanced features like condition for being seen, or permissions
 
 When you don't need this
 ------------------------
 
 If you only need to port into Plone the "*portal_action*" tool customization, you will find
-a better product using `quintagroup.plonetabs`__
+a great product in `quintagroup.plonetabs`__
 
 __ http://pypi.python.org/pypi/quintagroup.plonetabs/
 
