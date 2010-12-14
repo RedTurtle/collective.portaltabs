@@ -12,7 +12,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="collective.portaltabs"
+      title="Manage Portal Tabs"
       directory="profiles/default"
       description="Product for customize from Plone the portal tabs section"
       provides="Products.GenericSetup.interfaces.EXTENSION"

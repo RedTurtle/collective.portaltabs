@@ -46,6 +46,11 @@ class ManagePortaltabsView(BrowserView):
             results.append({'id': id, 'title': title})
         return results
 
+    @property
+    def check_disableFolderSections(self):
+        """Check is the disable_folder_sections is on or off"""
+        return getToolByName(self.context, 'portal_properties').site_properties.disable_folder_sections
+
     def _prettify(self, url_expr):
         if url_expr and not url_expr.startswith('python:') and not url_expr.startswith('string:'):
             return 'tal:' + url_expr
@@ -138,7 +143,7 @@ class ManagePortaltabsView(BrowserView):
         elif where=='bottom':
             category.moveObjectsToBottom(ids=[id])
         else:
-            raise ValueError("Bag arguments for moveTab")
+            raise ValueError("Bad arguments for moveTab")
         return _(u'Tab moved')
     
     def __call__(self):

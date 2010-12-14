@@ -35,21 +35,31 @@
     <p i18n:translate="description_portaltabs_setup">
         Lets you control tabs of the site.
     </p>
+	<div tal:condition="not:view/check_disableFolderSections" class="portalMessage info">
+		<span i18n:translate="description_portaltabs_foldersection">
+			Be aware that the &quot;Automatically generate tabs &quot; option is selected.
+			You will not be able to handle tabs automatically generated.
+		</span><br/>
+		<a tal:attributes="href string:${context/absolute_url}/prefs_navigation_form" i18n:translate="link_portaltabs_foldersection">
+			Go to the Navigation Settings
+		</a>
+	</div>
     	
     <form
           id="portaltabs_setup"
           method="post"
 		  class="enableFormTabbing enableUnloadProtection"
-		  tal:define="actions view/actions"
+		  tal:define="actions view/actions;"
           tal:attributes="action string:${context/absolute_url}/@@manage-portaltabs;
 		                  class python:len(actions)>1 and 'enableUnloadProtection enableFormTabbing' or 'enableUnloadProtection'">
 
         <fieldset tal:repeat="action actions"
 		          tal:attributes="id string:fieldset-${action/id}">
+		    <tal:avtabs define="tabs action/tabs">
             <legend tal:content="action/title"
 			        tal:attributes="id string:fieldsetlegend-${action/id}">Portal tabs</legend>
 
-			<tal:tabs repeat="tab action/tabs">
+			<tal:tabs repeat="tab tabs">
 			<div tal:define="ind repeat/tab/number;
 			                 even repeat/tab/even"
 			     tal:attributes="class python:'tabSetup ' + (even and 'odd' or 'even')">
@@ -101,11 +111,14 @@
 							<img src="arrowBottom.gif" alt="Move bottom" i18n:attributes="alt" />
 						</a>
 					</tal:notlast>
-
 				</div>
 			</div>
 			</tal:tabs>
-            
+			<p tal:condition="not:tabs" i18n:translate="help_portaltabs_notab">
+				No tabs in this category yet.
+			</p>
+
+        	</tal:avtabs>
         </fieldset>
 		<input type="submit" class="context" name="Save" value="Save" i18n:attributes="value" />
     </form>

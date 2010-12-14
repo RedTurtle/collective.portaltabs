@@ -17,7 +17,11 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.portaltabs\n"
 
-
 msgid "Portal tabs"
 msgstr ""
 
+msgid "Manage Portal Tabs"
+msgstr ""
+
+msgid "Product for customize from Plone the portal tabs section"
+msgstr ""
