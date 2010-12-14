@@ -5,6 +5,18 @@
       metal:use-macro="here/prefs_main_template/macros/master"
       i18n:domain="collective.portaltabs">
 
+<head>
+    <metal:css fill-slot="style_slot">
+      <style type="text/css">
+      	<!--
+		.tabSetup .commands a {
+			margin: 0.2em 1em;
+		}
+		-->
+	  </style>
+    </metal:css>
+</head>
+
 <body>
 
 <div metal:fill-slot="prefs_configlet_main">
@@ -21,65 +33,134 @@
     </a>
 
     <p i18n:translate="description_portaltabs_setup">
-        Lets you control portal tabs of the site.
+        Lets you control tabs of the site.
     </p>
-    
-    <form action=""
+    	
+    <form
           id="portaltabs_setup"
           method="post"
 		  class="enableFormTabbing enableUnloadProtection"
 		  tal:define="actions view/actions"
           tal:attributes="action string:${context/absolute_url}/@@manage-portaltabs;
-		                  class python:len(actions)>1 and 'enableFormTabbing enableUnloadProtection' or 'enableUnloadProtection'">
+		                  class python:len(actions)>1 and 'enableUnloadProtection enableFormTabbing' or 'enableUnloadProtection'">
 
-		<div>
-	        <fieldset tal:repeat="action actions"
-			          tal:attributes="id string:fieldset-${action/id}">
-	            <legend tal:content="action/title"
-				        tal:attributes="id string:fieldsetlegend-${action/id}">Portal tabs</legend>
-	
-				<tal:tabs repeat="tab action/tabs">
-				<div tal:define="ind repeat/tab/number" class="tabSetup">
-					<label tal:attributes="for string:tab-$ind-id;" tal:content="tab/id">Home</label>
-					<input type="hidden" name="id:list"
-					       tal:attributes="value tab/id;
-						                   id string:tab-$ind-id;" />
-					<input type="hidden" name="action:list" tal:attributes="value action/id" />
-		            <div class="field">
-						<input type="text" size="50" name="title:list"
-						       tal:attributes="value tab/title;
-							                   id string:tab-$ind-title;" />
-						<label tal:attributes="for string:tab-$ind-title;" i18n:translate="">Title</label>
-		            </div>
-		            <div class="field">
-						<input type="text" size="50" name="url:list" id="url"
-						       tal:attributes="value tab/url;
-							                   id string:tab-$ind-url;" />
-						<label tal:attributes="for string:tab-$ind-url;" i18n:translate="">URL</label>
-		            </div>
+        <fieldset tal:repeat="action actions"
+		          tal:attributes="id string:fieldset-${action/id}">
+            <legend tal:content="action/title"
+			        tal:attributes="id string:fieldsetlegend-${action/id}">Portal tabs</legend>
+
+			<tal:tabs repeat="tab action/tabs">
+			<div tal:define="ind repeat/tab/number;
+			                 even repeat/tab/even"
+			     tal:attributes="class python:'tabSetup ' + (even and 'odd' or 'even')">
+				<label tal:attributes="for string:tab-$ind-id;" tal:content="tab/id">Home</label>
+				<input type="hidden" name="id:list"
+				       tal:attributes="value tab/id;id string:tab-$ind-id;" />
+				<input type="hidden" name="action:list" tal:attributes="value action/id" />
+	            <div class="field">
+					<label tal:attributes="for string:tab-$ind-title;" i18n:translate="">Title</label>
+		           <span class="fieldRequired" title="Required"
+				         i18n:domain="plone"
+							 i18n:attributes="title title_required;"
+							 i18n:translate="label_required">(Required)</span><br/>
+					<input type="text" size="50" name="title:list"
+					       tal:attributes="value tab/title;id string:tab-$ind-title;" />
+	            </div>
+	            <div class="field">
+					<label tal:attributes="for string:tab-$ind-url;" i18n:translate="">URL</label>
+		           <span class="fieldRequired" title="Required"
+				         i18n:domain="plone"
+							 i18n:attributes="title title_required;"
+							 i18n:translate="label_required">(Required)</span><br/>
+					<input type="text" size="50" name="url:list" id="url"
+					       tal:attributes="value tab/url;id string:tab-$ind-url;" />
+	            </div>
+				<div class="field commands">
+					<a href="" title="Delete this tab" i18n:attributes="title"
+					   tal:attributes="onclick string:if (!confirm('${view/confirm_message}')) return false;;;
+					                   href string:${context/absolute_url}/@@manage-portaltabs?Delete=${tab/id}&amp;action=${action/id}">
+						<img src="delete_icon.gif" alt="Delete this tab" i18n:attributes="alt" />
+					</a>
+					<tal:notfirst condition="not:repeat/tab/start">
+						<a href="" title="Move top" i18n:attributes="title"
+						   tal:attributes="href string:${context/absolute_url}/@@manage-portaltabs?move=${tab/id}&amp;where=top&amp;action=${action/id}">
+							<img src="arrowTop.gif" alt="Move top" i18n:attributes="alt" />
+						</a>
+						<a href="" title="Move up" i18n:attributes="title"
+						   tal:attributes="href string:${context/absolute_url}/@@manage-portaltabs?move=${tab/id}&amp;where=up&amp;action=${action/id}">
+							<img src="arrowUp.gif" alt="Move up" i18n:attributes="alt" />
+						</a>
+					</tal:notfirst>
+					<tal:notlast condition="not:repeat/tab/end">
+						<a href="" title="Move down" i18n:attributes="title"
+						   tal:attributes="href string:${context/absolute_url}/@@manage-portaltabs?move=${tab/id}&amp;where=down&amp;action=${action/id}">
+							<img src="arrowDown.gif" alt="Move down" i18n:attributes="alt" />
+						</a>
+						<a href="" title="Move bottom" i18n:attributes="title"
+						   tal:attributes="href string:${context/absolute_url}/@@manage-portaltabs?move=${tab/id}&amp;where=bottom&amp;action=${action/id}">
+							<img src="arrowBottom.gif" alt="Move bottom" i18n:attributes="alt" />
+						</a>
+					</tal:notlast>
+
 				</div>
-				</tal:tabs>
-	            
-	        </fieldset>
-			<input type="submit" class="context" name="Save" value="Save" i18n:attributes="value" />
-		</div>
+			</div>
+			</tal:tabs>
+            
+        </fieldset>
+		<input type="submit" class="context" name="Save" value="Save" i18n:attributes="value" />
     </form>
 	
-	<form>
+	<form
+          id="portaltabs_add"
+          method="post"
+		  class="enableUnloadProtection"
+          tal:attributes="action string:${context/absolute_url}/@@manage-portaltabs">
+
 		<div>
 		<fieldset>
 			<legend i18n:translate="">New tab</legend>
 
-				<div class="tabSetupNew">
+				<div class="tabSetupNew" tal:define="categories view/defaults">
+					
+					<div class="field" tal:condition="python:len(categories)>1">
+						<select name="action">
+							<option tal:repeat="category categories"
+							        tal:attributes="value category/id"
+									tal:content="category/title"></option>
+						</select>
+						<div class="formHelp" i18n:translate="help_portaltabs_categorysel">
+							Please, select also in what action category you want to add the new tab.
+						</div>
+					</div>
+					<div tal:condition="python:len(categories)==1">
+						<input type="hidden" name="action" tal:attributes="value python:categories[0]['id']" />
+					</div>
+					
 		            <div class="field">
-						<input type="text" size="50" name="newtitle" id="newtitle"
-						       tal:attributes="value view/request/newtitle|nothing"/>
-							   <label for="newtitle" i18n:translate="">Title</label>
+					   <label for="title" i18n:translate="">Title</label>
+			           <span class="fieldRequired" title="Required"
+					         i18n:domain="plone"
+								 i18n:attributes="title title_required;"
+								 i18n:translate="label_required">(Required)</span><br/>
+						<input type="text" size="50" name="title" id="title"
+						       tal:attributes="value view/request/title|nothing"/>
 		            </div>
 		            <div class="field">
-						<input type="text" size="50" name="newurl" id="newurl"
-						       tal:attributes="value view/request/newurl|nothing"/>
-							   <label for="newurl" i18n:translate="">URL</label>
+					   <label for="url" i18n:translate="">URL</label>
+			           <span class="fieldRequired" title="Required"
+					         i18n:domain="plone"
+								 i18n:attributes="title title_required;"
+								 i18n:translate="label_required">(Required)</span><br/>
+						<input type="text" size="50" name="url" id="url"
+						       tal:attributes="value view/request/url|nothing"/>
+		            </div>
+		            <div class="field">
+						<label for="id" i18n:translate="">Id</label><br/>
+						<div class="formHelp" i18n:translate="help_portaltabs_id_optional">
+							Optional, if not provided will be generated from the title.
+						</div>
+						<input type="text" size="50" name="id" id="id"
+						       tal:attributes="value view/request/id|nothing"/>
 		            </div>
 				</div>
 

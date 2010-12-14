@@ -10,24 +10,8 @@
         name="manage-portaltabs"
         class=".manage_portaltabs_view.ManagePortaltabsView"
         permission="cmf.ManagePortal"
+		layer="..interfaces.IPortalTabsLayer"
         />
-
-    <!--browser:viewlet
-        name="plone.global_sections"
-        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
-        class=".global_section.GlobalSectionsViewlet"
-        permission="zope2.View"
-		layer="..interfaces.IPortalTabsLayer"
-        /-->
-
-    <!--browser:page
-        for="*"
-        name="portal_tabs_view"
-        class=".navigation.CatalogNavigationTabs"
-        permission="zope.Public"
-        allowed_attributes="topLevelTabs"
-		layer="..interfaces.IPortalTabsLayer"
-        /-->
 
 
  	<browser:resource
