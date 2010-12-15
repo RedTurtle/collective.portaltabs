@@ -35,15 +35,20 @@
     <p i18n:translate="description_portaltabs_setup">
         Lets you control tabs of the site.
     </p>
-	<div tal:condition="not:view/check_disableFolderSections" class="portalMessage info">
-		<span i18n:translate="description_portaltabs_foldersection">
-			Be aware that the &quot;Automatically generate tabs &quot; option is selected.
-			You will not be able to handle tabs automatically generated.
-		</span><br/>
-		<a tal:attributes="href string:${context/absolute_url}/prefs_navigation_form" i18n:translate="link_portaltabs_foldersection">
-			Go to the Navigation Settings
-		</a>
-	</div>
+	<dl tal:condition="not:view/check_disableFolderSections" class="portalMessage warning">
+	    <dt i18n:translate="">
+	        Warning
+	    </dt>
+	    <dd>
+			<span i18n:translate="description_portaltabs_foldersection">
+				Be aware that the &quot;Automatically generate tabs &quot; option is selected.
+				You will not be able to handle tabs automatically generated.
+			</span><br/>
+			<a tal:attributes="href string:${context/absolute_url}/prefs_navigation_form" i18n:translate="link_portaltabs_foldersection">
+				Go to the Navigation Settings
+			</a>
+	    </dd>
+    </dl>
     	
     <form
           id="portaltabs_setup"

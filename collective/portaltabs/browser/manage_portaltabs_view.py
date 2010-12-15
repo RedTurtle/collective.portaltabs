@@ -31,8 +31,9 @@ class ManagePortaltabsView(BrowserView):
     @property
     def defaults(self):
         context = self.context
-        structure = getToolByName(context, 'portal_properties').portaltabs_settings.managable_categories
+        structure = getToolByName(context, 'portal_properties').portaltabs_settings.manageable_categories
         translation_service = getToolByName(context,'translation_service')
+        portal_actions = getToolByName(context, 'portal_actions')
         results = []
         for x in structure:
             if x.find("|")>-1:
@@ -43,6 +44,11 @@ class ManagePortaltabsView(BrowserView):
                                                    msgid=title,
                                                    default=title,
                                                    context=context)
+            # Be sure that the CMF Category exists
+            try:
+                portal_actions[id]
+            except KeyError:
+                continue
             results.append({'id': id, 'title': title})
         return results
 

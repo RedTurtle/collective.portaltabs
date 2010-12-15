@@ -7,7 +7,7 @@ from Products.CMFCore.utils import getToolByName
 # in the quickinstaller.
 
 _PROPERTIES = [
-    dict(name='managable_categories', type_='lines', value=('portal_tabs|Portal tabs')),
+    dict(name='manageable_categories', type_='lines', value=('portal_tabs|Portal tabs')),
     ]
 
 def import_various(context):
