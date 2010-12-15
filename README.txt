@@ -95,7 +95,7 @@ Bug report and feature request
 
 Please, go to the `product's issue tracker`__ on plone.org website.
 
-__http://plone.org/products/collective.portaltabs/issues/
+__ http://plone.org/products/collective.portaltabs/issues/
 
 Authors
 =======
