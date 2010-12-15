@@ -27,7 +27,18 @@ __ http://pypi.python.org/pypi/quintagroup.plonetabs/
 How to use
 ==========
 
-...TODO...
+First note
+----------
+
+This product only manage portal tabs that are not automatically generated from Plone. For this
+reason, a warning message is displayed if the 
+
+TODO
+====
+
+* Simplify creation of tabs that links site content's
+* Make possible to non-Manager users to handle tabs
+* Test test test
 
 Authors
 =======
