@@ -21,6 +21,11 @@
 
 <div metal:fill-slot="prefs_configlet_main">
 
+	<dl class="portalMessage error" tal:condition="view/errs">
+		<dt i18n:translate="" i18n:domain="plone">Error</dt>
+        <dd i18n:translate="" i18n:domain="plone">Please correct the indicated errors.</dd> 
+    </dl>
+
     <h1 class="documentFirstHeading"
         i18n:translate="heading_portaltabs_setup">Portal Tabs Settings</h1>
 
@@ -158,26 +163,42 @@
 						<input type="hidden" name="action" tal:attributes="value python:categories[0]['id']" />
 					</div>
 					
-		            <div class="field">
+		            <div class="field"
+					     tal:attributes="class python: view.errs and view.errs.get('title') and 'field error' or 'field'">
 					   <label for="title" i18n:translate="">Title</label>
 			           <span class="fieldRequired" title="Required"
 					         i18n:domain="plone"
 								 i18n:attributes="title title_required;"
-								 i18n:translate="label_required">(Required)</span><br/>
+								 i18n:translate="label_required">(Required)</span>
+						<div class="formHelp" i18n:translate="help_portaltabs_title">
+							What you want to see in the site tab.
+						</div>
+						<div class="fieldErrorBox" tal:condition="view/errs/title|nothing"
+						     i18n:translate="">
+							Title field is required, please provide ones.
+						</div>
 						<input type="text" size="50" name="title" id="title"
 						       tal:attributes="value view/request/title|nothing"/>
 		            </div>
-		            <div class="field">
+		            <div class="field"
+					     tal:attributes="class python: view.errs and view.errs.get('url') and 'field error' or 'field'">
 					   <label for="url" i18n:translate="">URL</label>
 			           <span class="fieldRequired" title="Required"
 					         i18n:domain="plone"
 								 i18n:attributes="title title_required;"
-								 i18n:translate="label_required">(Required)</span><br/>
+								 i18n:translate="label_required">(Required)</span>
+						<div class="formHelp" i18n:translate="help_portaltabs_url">
+							Whatever you want to do when the user click on the tab.
+						</div>
+						<div class="fieldErrorBox" tal:condition="view/errs/url|nothing"
+						     i18n:translate="">
+							URL field is required, please provide ones.
+						</div>
 						<input type="text" size="50" name="url" id="url"
 						       tal:attributes="value view/request/url|nothing"/>
 		            </div>
 		            <div class="field">
-						<label for="id" i18n:translate="">Id</label><br/>
+						<label for="id" i18n:translate="">Id</label>
 						<div class="formHelp" i18n:translate="help_portaltabs_id_optional">
 							Optional, if not provided will be generated from the title.
 						</div>

@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.1.0a'
+version = '0.2.0dev'
 
 setup(name='collective.portaltabs',
       version=version,
@@ -15,6 +15,7 @@ setup(name='collective.portaltabs',
       classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
+        "Development Status :: 4 - Beta",
         ],
       keywords='plone portal-tabs',
       author='RedTurtle Technology',

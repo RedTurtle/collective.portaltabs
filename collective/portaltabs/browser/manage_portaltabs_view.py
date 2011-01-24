@@ -15,6 +15,7 @@ class ManagePortaltabsView(BrowserView):
     def __init__(self, context, request):
         BrowserView.__init__(self, context, request)
         self.confirmMessage = ''
+        self.errs = {}
 
     @property
     def confirm_message(self):
@@ -156,21 +157,35 @@ class ManagePortaltabsView(BrowserView):
         else:
             raise ValueError("Bad arguments for moveTab")
         return _(u'Tab moved')
-    
+
+    def _validateInput(self, form):
+        """Validate possible form input"""
+        if not form.get('title'):
+            self.errs['title'] = True
+        if not form.get('url'):
+            self.errs['url'] = True
+
     def __call__(self):
         self.request.set('disable_border', True)
+        ptool = getToolByName(self.context, 'plone_utils')
+        msg = ''
         if self.request.form.get('Save'):
-            msg = self.update(self.request.form)
+            self._validateInput(self.request.form)
+            if not self.errs:
+                msg = self.update(self.request.form)
         elif self.request.form.get('Add'):
-            msg = self.addNew(self.request.form)
+            self._validateInput(self.request.form)
+            if not self.errs:
+                msg = self.addNew(self.request.form)
         elif self.request.get('Delete'):
             msg = self.delete(self.request.get('Delete'), self.request.get('action')) 
         elif self.request.get('move'):
-            msg = self.moveTab(self.request.get('move'), self.request.get('where'), self.request.get('action'))
+            msg = self.moveTab(self.request.get('move'),
+                               self.request.get('where'),
+                               self.request.get('action'))
         else:
             msg = ''
         if msg:
-            ptool = getToolByName(self.context, 'plone_utils')
             ptool.addPortalMessage(msg, type='info')
             self.request.response.redirect(self.context.absolute_url()+'/'+self.__name__)
             return

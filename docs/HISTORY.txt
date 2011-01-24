@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.2.0 (Unreleased)
+------------------
+
+* added input validations [keul]
+
 0.1.0a (2010-12-15)
 -------------------
 
