@@ -46,7 +46,7 @@ product installation.
 The "*Portal Tabs settings*" view is composed by two section; the first one for make changes to
 existing tabs (and also order and delete them), and the second for adding new tabs.
 
-.. image:: http://keul.it/images/plone/collective.portaltabs-0.1.0a-2.png
+.. image:: http://keul.it/images/plone/collective.portaltabs-0.2.0-01.png
    :alt: Manage portal tabs panel view
 
 Newly created tab only need two kind of information: the name of the tab to be displayed (title)
@@ -78,8 +78,27 @@ All entries are if the form "actions_id|Title to be displayed" and the *action_i
 action category *must* be exists.
 Going back to the "*Portal Tabs settings*" make possible to handle also those new actions
 
-.. image:: http://keul.it/images/plone/collective.portaltabs-0.1.0a-3.png
+.. image:: http://keul.it/images/plone/collective.portaltabs-0.2.0-02.png
    :alt: Multiple CMF Category panel
+
+Upload directly an "actions.xml" file
+=====================================
+
+If you have defined your anc portal tabs using a *Generic Setup* profile, you can upload your ``actions.xml``
+(or compatible file) file directly in the manage form.
+
+Plone is an helephant, remember all
+-----------------------------------
+
+Please, remember that if you used an ``actions.xml`` in one of your product, Plone will remember all action you have
+loaded, and changes done manually later will be reverted if you reinstall it.
+
+To make Plone stopping remember about those actions, you need to:
+
+* uninstall your product that added the actions
+* remote the products from the ``portal_quickinstaller`` ("Contents" tab)
+* remove the ``actions.xml`` file from your product
+* install again
 
 TODO
 ====
