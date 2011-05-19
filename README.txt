@@ -86,7 +86,6 @@ TODO
 
 * Simplify creation of tabs that simply are links to site contents
 * Make possible for non-Manager users to handle tabs
-* Error checking
 * Block users from creating TAL/Python expression if you don't want
 * Tests
 
@@ -96,6 +95,27 @@ Bug report and feature request
 Please, go to the `product's issue tracker`__ on plone.org website.
 
 __ http://plone.org/products/collective.portaltabs/issues/
+
+Credits
+=======
+
+Developed with the support of:
+
+* `S. Anna Hospital, Ferrara`__
+  
+  .. image:: http://www.ospfe.it/ospfe-logo.jpg 
+     :alt: S. Anna Hospital logo
+
+* `Azienda USL Ferrara`__
+
+  .. image:: http://www.ausl.fe.it/logo_ausl.gif
+     :alt: Azienda USL logo
+
+All of them supports the `PloneGov initiative`__.
+
+__ http://www.ospfe.it/
+__ http://www.ausl.fe.it/
+__ http://www.plonegov.it/
 
 Authors
 =======

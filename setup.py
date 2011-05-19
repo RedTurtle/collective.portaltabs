@@ -7,7 +7,7 @@ version = '0.2.0dev'
 
 setup(name='collective.portaltabs',
       version=version,
-      description="Manage portal tabs from Plone hiding difficulties",
+      description="Manage portal tabs from Plone, hiding difficulties",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
@@ -17,7 +17,7 @@ setup(name='collective.portaltabs',
         "Programming Language :: Python",
         "Development Status :: 4 - Beta",
         ],
-      keywords='plone portal-tabs',
+      keywords='plone portal-tabs plonegov',
       author='RedTurtle Technology',
       author_email='sviluppoplone@redturtle.net',
       url='http://plone.org/products/collective.portaltabs',

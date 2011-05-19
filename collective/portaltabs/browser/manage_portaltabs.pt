@@ -54,7 +54,41 @@
 			</a>
 	    </dd>
     </dl>
-    	
+
+    <form
+          id="portaltabs_upload"
+          method="post"
+          class="enableFormTabbing enableUnloadProtection"
+          enctype="multipart/form-data"
+          tal:attributes="action string:${context/absolute_url}/@@manage-portaltabs">
+
+        <div>
+        <fieldset>
+            <legend i18n:translate="">Upload XML file</legend>
+			
+			<div class="formHelp">
+				<span tal:omit-tag="" i18n:translate="help_xml_upload">
+					If you have a &quot;Generic Setup profile&quot; compatible file
+					(like an &quot;actions.xml&quot;) you can upload it there then load
+					all action defined inside.
+				</span><br/>
+				<span tal:omit-tag="" i18n:translate="help_xml_upload_warning">
+					Be aware that only <a tal:attributes="href string:${context/portal_url}/portal_properties/portaltabs_settings/manage_propertiesForm"
+					                      i18n:name="help_xml_upload_link"
+										  i18n:translate="">managed categories</a> will be taken.
+				</span>
+			</div>
+
+			<div class="field">
+            	<input type="file" name="file" />
+			</div>
+        	<input type="submit" class="context" name="Upload" value="Upload" i18n:attributes="value" />
+        </fieldset>
+        </div>
+
+    </form>
+
+
     <form
           id="portaltabs_setup"
           method="post"
@@ -175,7 +209,7 @@
 						</div>
 						<div class="fieldErrorBox" tal:condition="view/errs/title|nothing"
 						     i18n:translate="">
-							Title field is required, please provide ones.
+							Title field is required, please provide it.
 						</div>
 						<input type="text" size="50" name="title" id="title"
 						       tal:attributes="value view/request/title|nothing"/>
@@ -192,7 +226,7 @@
 						</div>
 						<div class="fieldErrorBox" tal:condition="view/errs/url|nothing"
 						     i18n:translate="">
-							URL field is required, please provide ones.
+							URL field is required, please provide it.
 						</div>
 						<input type="text" size="50" name="url" id="url"
 						       tal:attributes="value view/request/url|nothing"/>
@@ -211,25 +245,6 @@
 		<input type="submit" class="context" name="Add" value="Add" i18n:attributes="value" />
 		</div>
 	</form>
-
-
-    <form
-          id="portaltabs_upload"
-          method="post"
-          class="enableFormTabbing enableUnloadProtection"
-          enctype="multipart/form-data"
-          tal:attributes="action string:${context/absolute_url}/@@manage-portaltabs">
-
-        <div>
-        <fieldset>
-            <legend i18n:translate="">Upload XML file</legend>
-
-            <input type="file" name="file" />
-        </fieldset>
-        <input type="submit" class="context" name="Upload" value="Upload" i18n:attributes="value" />
-        </div>
-
-    </form>
 
 </div>
 

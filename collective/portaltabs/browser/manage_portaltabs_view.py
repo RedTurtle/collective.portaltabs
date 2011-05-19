@@ -163,7 +163,7 @@ class ManagePortaltabsView(BrowserView):
                                                           form.get('id', []),
                                                           form.get('title', []),
                                                           form.get('urls', [])):
-            _, action_id = cat_action_id.split('|')
+            action_id = cat_action_id.split('|')[1]
             action = self.portal_actions[category_id][action_id]
             action.manage_changeProperties(title = title,
                                            url_expr = _tallify(url),
