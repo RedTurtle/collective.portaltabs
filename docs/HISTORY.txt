@@ -5,6 +5,8 @@ Changelog
 ------------------
 
 * added input validations [keul]
+* added a way to upload Generic Setup compatible ``actions.xml`` file, to
+  automatically load actions [marco.mariani]
 
 0.1.0a (2010-12-15)
 -------------------

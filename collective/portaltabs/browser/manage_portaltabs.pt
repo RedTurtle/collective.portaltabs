@@ -59,7 +59,7 @@
           id="portaltabs_setup"
           method="post"
 		  class="enableFormTabbing enableUnloadProtection"
-		  tal:define="actions view/actions;"
+		  tal:define="actions view/saved_actions;"
           tal:attributes="action string:${context/absolute_url}/@@manage-portaltabs;
 		                  class python:len(actions)>1 and 'enableUnloadProtection enableFormTabbing' or 'enableUnloadProtection'">
 
@@ -211,6 +211,25 @@
 		<input type="submit" class="context" name="Add" value="Add" i18n:attributes="value" />
 		</div>
 	</form>
+
+
+    <form
+          id="portaltabs_upload"
+          method="post"
+          class="enableFormTabbing enableUnloadProtection"
+          enctype="multipart/form-data"
+          tal:attributes="action string:${context/absolute_url}/@@manage-portaltabs">
+
+        <div>
+        <fieldset>
+            <legend i18n:translate="">Upload XML file</legend>
+
+            <input type="file" name="file" />
+        </fieldset>
+        <input type="submit" class="context" name="Upload" value="Upload" i18n:attributes="value" />
+        </div>
+
+    </form>
 
 </div>
 
