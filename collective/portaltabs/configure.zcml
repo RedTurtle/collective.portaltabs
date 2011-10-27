@@ -8,6 +8,11 @@
   <five:registerPackage package="." />
   <i18n:registerTranslations directory="locales" />
 
+  <permission
+        id="collective.portaltabs.ManageTabs"
+        title="collective.portaltabs: Manage tabs"
+     />
+
   <include package=".browser" />
 
   <genericsetup:registerProfile

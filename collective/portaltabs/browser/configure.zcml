@@ -5,16 +5,15 @@
     
   <include package="plone.app.contentmenu" />
 
-    <browser:page
-        for="Products.CMFPlone.Portal.PloneSite"
-        name="manage-portaltabs"
-        class=".manage_portaltabs_view.ManagePortaltabsView"
-        permission="cmf.ManagePortal"
-		layer="..interfaces.IPortalTabsLayer"
-        />
+  <browser:page
+      for="Products.CMFPlone.Portal.PloneSite"
+      name="manage-portaltabs"
+      class=".manage_portaltabs_view.ManagePortaltabsView"
+      permission="collective.portaltabs.ManageTabs"
+      layer="..interfaces.IPortalTabsLayer"
+      />
 
-
- 	<browser:resource
+  <browser:resource
       name="newtab.png"
       file="newtab.png"
       />

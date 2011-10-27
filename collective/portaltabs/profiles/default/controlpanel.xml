@@ -9,6 +9,6 @@
         url_expr="string:${portal_url}/@@manage-portaltabs"
         visible="True"
         i18n:attributes="title">
-        <permission>Manage portal</permission>
+        <permission>collective.portaltabs: Manage tabs</permission>
     </configlet>
 </object>

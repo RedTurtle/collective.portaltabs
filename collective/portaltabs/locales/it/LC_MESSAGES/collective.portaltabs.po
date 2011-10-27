@@ -156,7 +156,7 @@ msgstr "Ancora nessun tab in questa categoria."
 #. Default: "What you want to see in the site tab."
 #: ./browser/manage_portaltabs.pt:207
 msgid "help_portaltabs_title"
-msgstr "Cosa vuoi vedere visualizzare nel tab"
+msgstr "Cosa vuoi visualizzare nel tab"
 
 #. Default: "Whatever you want to do when the user click on the tab."
 #: ./browser/manage_portaltabs.pt:224

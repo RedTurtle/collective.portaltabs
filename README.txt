@@ -103,9 +103,7 @@ To make Plone stopping remember about those actions, you need to:
 TODO
 ====
 
-* Simplify creation of tabs that simply are links to site contents
-* Make possible for non-Manager users to handle tabs
-* Block users from creating TAL/Python expression if you don't want
+* Block users from creating TAL/Python expressions if you don't want
 * Tests
 
 Bug report and feature request

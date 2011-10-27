@@ -40,7 +40,8 @@
     <p i18n:translate="description_portaltabs_setup">
         Lets you control tabs of the site.
     </p>
-	<dl tal:condition="not:view/check_disableFolderSections" class="portalMessage warning">
+	<dl tal:condition="python: not view.check_disableFolderSections and view.check_canManageNavigationSettings"
+	    class="portalMessage warning">
 	    <dt i18n:translate="">
 	        Warning
 	    </dt>

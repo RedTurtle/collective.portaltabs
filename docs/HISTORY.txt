@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.3.0 (Unreleased)
+------------------
+
+* support for query expression starting with ``/``, that generate links to
+  internal section of the site [keul]
+* management protected with a specific permission [keul]
+* show the link to Plone "Navigation settings" only if the user has the proper
+  permission [keul]
+
 0.2.0 (2011-05-19)
 ------------------
 

@@ -2,20 +2,28 @@
 
 from elementtree import ElementTree
 
+from Acquisition import aq_inner
+
+from zope.component import getMultiAdapter
+
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore import permissions
 from Products.CMFCore.ActionInformation import Action
+from Products.CMFPlone.utils import getFSVersionTuple
 
 from collective.portaltabs import portaltabsMessageFactory as _
-
-
 
 
 def _prettify(url_expr):
     if url_expr and not url_expr.startswith('python:') and not url_expr.startswith('string:'):
         return 'tal:' + url_expr
+    if url_expr.startswith('string:${globals_view/navigationRootUrl}'):
+        if len(url_expr)==40:
+            return '/'
+        return url_expr[40:]
     if url_expr.startswith('string:'):
         return url_expr[7:]
     return url_expr
@@ -30,6 +38,10 @@ def _tallify(url):
         return url[4:]
     if url.startswith('www.'):
         url = 'http://' + url
+    if url.startswith('/'):
+        if url=='/':
+            return 'string:${globals_view/navigationRootUrl}'
+        return 'string:${globals_view/navigationRootUrl}' + url
     if not url.startswith('string:') and not url.startswith('python:'):
         return 'string:' + url
     return url
@@ -253,6 +265,17 @@ class ManagePortaltabsView(BrowserView):
         return _(u'Tab moved')
 
 
+    @property
+    def check_canManageNavigationSettings(self):
+        context = aq_inner(self.context)
+        portal_state = getMultiAdapter((context, self.request), name=u'plone_portal_state')
+        member = portal_state.member()
+        plone_version_tuple = getFSVersionTuple() 
+        if plone_version_tuple[0]>=4 and plone_version_tuple[1]>=1:
+            # If on Plone 4.1 or better we need to check "Plone Site Setup: Navigation" instead of "Manage portal"
+            return member.has_permission("Plone Site Setup: Navigation", portal_state.portal())
+        return member.has_permission("Manage portal", portal_state.portal())
+
     def __call__(self):
         request = self.request
         request.set('disable_border', True)
@@ -276,7 +299,7 @@ class ManagePortaltabsView(BrowserView):
 
         if msg:
             self.plone_utils.addPortalMessage(msg, type='info')
-            request.response.redirect('%s/%s' % (self.context.absolute_url(), self.__name__))
+            request.response.redirect('%s/@@%s' % (self.context.absolute_url(), self.__name__))
         else:
             return self.template()
 
