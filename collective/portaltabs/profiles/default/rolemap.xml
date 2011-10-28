@@ -6,5 +6,10 @@
       <role name="Manager"/>
 	  <role name="Site Administrator"/>
     </permission>	
+    <permission name="collective.portaltabs: Use advanced expressions"
+                acquire="False">
+      <role name="Manager"/>
+	  <role name="Site Administrator"/>
+    </permission>
   </permissions>
 </rolemap>

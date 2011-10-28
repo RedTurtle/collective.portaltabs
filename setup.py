@@ -28,6 +28,7 @@ setup(name='collective.portaltabs',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'collective.autopermission',
       ],
       entry_points="""
       # -*- Entry points: -*-

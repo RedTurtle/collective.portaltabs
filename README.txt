@@ -1,7 +1,10 @@
+.. contents:: **Table of contents**
+
 Introduction
 ============
 
-.. contents:: **Table of contents**
+Add to Plone a way to manage site **portal tabs** using the Plone interface and hiding common
+syntax difficulties you can find in ZMI.
 
 When you need this
 ------------------
@@ -11,15 +14,18 @@ manage the *portal tabs* section of your Plone site.
 
 Going deeply:
 
-* you don't want that your users (even if Manager) go to ZMI
+* you don't want (or you can't) that your power user will need to go to ZMI
+  (for example, the Plone 4.1 "*Site Administrator*" role can't)
+* you still want to make them able to manage portal tabs
 * you users don't know nothing about TAL and python, and commonly want only to add static
   links to the site
 * your additional tab don't need advanced features like condition for being seen, or permissions
+  (for this, you can still go to ZMI)
 
 When you don't need this
 ------------------------
 
-If you only need to port into Plone the "*portal_action*" tool customization, you will find
+If you only need to port into Plone interface the "*portal_action*" tool customization, you will find
 a great product in `quintagroup.plonetabs`__
 
 __ http://pypi.python.org/pypi/quintagroup.plonetabs/
@@ -59,14 +65,17 @@ What I can write inside an URL section?
 The product try to hide some of the too-technical feature you have available in the ZMI
 portal_actions tool management, however all features are still there.
 
-* to create a link to something, just type the link (e.g: "http://foo.org")
+* to create an absolute link to something, just type the link (e.g: "http://foo.org")
 * TAL espression are still available, but you need to start them with a "*tal:*"
+* Python expression are still available, but you need to start them with a "*python:*"
+* when you need to create links to URL inside the site, just type "*/folder/foo*"
+  (note that this path *can* be a content path, but no check are done at all)
 * inside an URL, you can still use expressions in the normal form "${foo1/foo2/...}"
 
 Manage additional actions categories
 ------------------------------------
 
-You can use collective.portaltabs to handle also others than "*portal_tabs*". To do this you
+You can use collective.portaltabs to handle also other categories than "*portal_tabs*". To do this you
 need to go to ZMI, in the "*portal_properties*" tool and change the "*portaltabs_settings*".
 
 In the "*manageable_categories*" you can add additional entries::
@@ -84,14 +93,14 @@ Going back to the "*Portal Tabs settings*" make possible to handle also those ne
 Upload directly an "actions.xml" file
 =====================================
 
-If you have defined your anc portal tabs using a *Generic Setup* profile, you can upload your ``actions.xml``
+If you have defined your own portal tabs using a *Generic Setup* profile, you can upload your ``actions.xml``
 (or compatible file) file directly in the manage form.
 
 Plone is an helephant, remember all
 -----------------------------------
 
 Please, remember that if you used an ``actions.xml`` in one of your product, Plone will remember all action you have
-loaded, and changes done manually later will be reverted if you reinstall it.
+loaded, and changes done manually later will be reverted if you reinstall the product.
 
 To make Plone stopping remember about those actions, you need to:
 

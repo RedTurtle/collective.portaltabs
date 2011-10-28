@@ -37,7 +37,7 @@ msgid "Id"
 msgstr ""
 
 msgid "Manage Portal Tabs"
-msgstr "Gestisci Tab del Portale"
+msgstr "Gestione Tab del Portale"
 
 #: ./profiles/default/actionicons.xml
 #: ./profiles/default/controlpanel.xml

@@ -7,10 +7,15 @@
 
   <five:registerPackage package="." />
   <i18n:registerTranslations directory="locales" />
+  <include package="collective.autopermission" />
 
   <permission
         id="collective.portaltabs.ManageTabs"
         title="collective.portaltabs: Manage tabs"
+     />
+  <permission
+        id="collective.portaltabs.ManageAdvancedTabs"
+        title="collective.portaltabs: Use advanced expressions"
      />
 
   <include package=".browser" />

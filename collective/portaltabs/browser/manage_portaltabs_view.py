@@ -145,9 +145,18 @@ class ManagePortaltabsView(BrowserView):
         Validate possible form input
         """
         if not form.get('title'):
-            self.errs['title'] = True
-        if not form.get('url'):
-            self.errs['url'] = True
+            self.errs['title'] = _(u'Title field is required, please provide it.')
+        url = form.get('url')
+        if not url:
+            self.errs['url'] = _(u'URL field is required, please provide it.')
+        else:
+            context = aq_inner(self.context)
+            portal_state = getMultiAdapter((context, self.request), name=u'plone_portal_state')
+            member = portal_state.member()
+            if (url.startswith('tal:') or url.startswith('python:')) and \
+                    not member.has_permission("collective.portaltabs: Use advanced expressions", portal_state.portal()):
+                self.errs['url'] = _('adv_expression_permission_denied_msg',
+                                     default=u'You have no permission for handle expressions like "tal:" or "python:".')
         return self.errs
 
 

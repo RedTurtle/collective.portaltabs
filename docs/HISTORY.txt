@@ -9,6 +9,8 @@ Changelog
 * management protected with a specific permission [keul]
 * show the link to Plone "Navigation settings" only if the user has the proper
   permission [keul]
+* protect the use of ``tal:`` or ``python:`` with a proper permission
+  [keul]
 
 0.2.0 (2011-05-19)
 ------------------
