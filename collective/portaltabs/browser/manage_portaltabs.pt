@@ -56,6 +56,8 @@
         </dd>
     </dl>
 
+<span tal:replace="view/errs" />
+
     <form
           id="portaltabs_upload"
           method="post"
@@ -76,6 +78,7 @@
                 <span tal:omit-tag="" i18n:translate="help_xml_upload_warning">
                     Be aware that only <a tal:attributes="href string:${context/portal_url}/portal_properties/portaltabs_settings/manage_propertiesForm"
                                           i18n:name="help_xml_upload_link"
+										  tal:omit-tag="not:view/check_canManagePortal"
                                           i18n:translate="">managed categories</a> will be taken.
                 </span>
             </div>
@@ -106,27 +109,41 @@
 
             <tal:tabs repeat="tab tabs">
             <div tal:define="ind repeat/tab/number;
-                             even repeat/tab/even"
-                 tal:attributes="class python:'tabSetup ' + (even and 'odd' or 'even')">
+                             even repeat/tab/even;
+							 errs python:view.errs.get(action.get('id')+'|'+tab.get('id'));"
+                 tal:attributes="class python:'tabSetup ' + (even and 'odd' or 'even')"
+				 tal:condition="python:view.canSeeRow(tab)">
                 <label tal:attributes="for string:tab-$ind-id;" tal:content="tab/id">Home</label>
                 <input type="hidden" name="id:list"
                        tal:attributes="value string:${action/id}|${tab/id};id string:tab-$ind-id;" />
                 <input type="hidden" name="action:list" tal:attributes="value action/id" />
-                <div class="field">
+                <div class="field"
+				     tal:attributes="class python: errs and errs.get('title') and 'field error' or 'field'">
                     <label tal:attributes="for string:tab-$ind-title;" i18n:translate="">Title</label>
                    <span class="fieldRequired" title="Required"
                          i18n:domain="plone"
                              i18n:attributes="title title_required;"
                              i18n:translate="label_required">(Required)</span><br/>
+                   <div class="fieldErrorBox" tal:condition="errs/title|nothing"
+                        i18n:translate=""
+                        tal:content="errs/title">
+                            Error message
+                   </div>
                     <input type="text" size="50" name="title:list"
                            tal:attributes="value tab/title;id string:tab-$ind-title;" />
                 </div>
-                <div class="field">
+                <div class="field"
+				     tal:attributes="class python: errs and errs.get('url') and 'field error' or 'field'">
                     <label tal:attributes="for string:tab-$ind-url;" i18n:translate="">URL</label>
                    <span class="fieldRequired" title="Required"
                          i18n:domain="plone"
                              i18n:attributes="title title_required;"
                              i18n:translate="label_required">(Required)</span><br/>
+                   <div class="fieldErrorBox" tal:condition="errs/url|nothing"
+                        i18n:translate=""
+                        tal:content="errs/url">
+                            Error message
+                   </div>
                     <input type="text" size="50" name="url:list" id="url"
                            tal:attributes="value tab/url;id string:tab-$ind-url;" />
                 </div>
@@ -178,9 +195,8 @@
           method="post"
           class="enableUnloadProtection"
           tal:attributes="action string:${context/absolute_url}/@@manage-portaltabs">
-
         <div>
-        <fieldset>
+        <fieldset tal:define="errs view/errs/__add__|nothing">
             <legend i18n:translate="">New tab</legend>
 
                 <div class="tabSetupNew" tal:define="categories view/defaults">
@@ -199,7 +215,7 @@
                     </div>
                     
                     <div class="field"
-                         tal:attributes="class python: view.errs and view.errs.get('title') and 'field error' or 'field'">
+                         tal:attributes="class python: errs and errs.get('title') and 'field error' or 'field'">
                        <label for="title" i18n:translate="">Title</label>
                        <span class="fieldRequired" title="Required"
                              i18n:domain="plone"
@@ -208,16 +224,16 @@
                         <div class="formHelp" i18n:translate="help_portaltabs_title">
                             What you want to see in the site tab.
                         </div>
-                        <div class="fieldErrorBox" tal:condition="view/errs/title|nothing"
+                        <div class="fieldErrorBox" tal:condition="errs/title|nothing"
                              i18n:translate=""
-                             tal:content="view/errs/title">
+                             tal:content="errs/title">
                                  Error message
                         </div>
                         <input type="text" size="50" name="title" id="title"
                                tal:attributes="value view/request/title|nothing"/>
                     </div>
                     <div class="field"
-                         tal:attributes="class python: view.errs and view.errs.get('url') and 'field error' or 'field'">
+                         tal:attributes="class python: errs and errs.get('url') and 'field error' or 'field'">
                        <label for="url" i18n:translate="">URL</label>
                        <span class="fieldRequired" title="Required"
                              i18n:domain="plone"
@@ -226,9 +242,9 @@
                         <div class="formHelp" i18n:translate="help_portaltabs_url">
                             Whatever you want to do when the user click on the tab.
                         </div>
-                        <div class="fieldErrorBox" tal:condition="view/errs/url|nothing"
+                        <div class="fieldErrorBox" tal:condition="errs/url|nothing"
                              i18n:translate=""
-                             tal:content="view/errs/url">
+                             tal:content="errs/url">
                                  Error message
                         </div>
                         <input type="text" size="50" name="url" id="url"

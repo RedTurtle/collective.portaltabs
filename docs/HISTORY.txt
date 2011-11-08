@@ -4,6 +4,7 @@ Changelog
 0.3.0 (Unreleased)
 ------------------
 
+* updated to Plone 4.1 security and new role [keul]
 * support for query expression starting with ``/``, that generate links to
   internal section of the site [keul]
 * management protected with a specific permission [keul]

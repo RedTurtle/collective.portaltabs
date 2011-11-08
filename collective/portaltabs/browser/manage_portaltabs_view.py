@@ -67,6 +67,7 @@ class ManagePortaltabsView(BrowserView):
     def __init__(self, context, request):
         BrowserView.__init__(self, context, request)
         self.confirmMessage = ''
+        # will be {action_id: {data}, ...}
         self.errs = {}
         self.portal_actions = getToolByName(context, 'portal_actions')
         self.translation_service = getToolByName(context, 'translation_service')
@@ -83,10 +84,8 @@ class ManagePortaltabsView(BrowserView):
     @property
     def confirm_message(self):
         if not self.confirmMessage:
-            dummy = _(u'confirm_message', default=u'Confirm deletion?')
-            confirmMessage = self.translate(msgid='confirm_message',
-                                            default=u'Confirm deletion?')
-            self.confirmMessage = confirmMessage
+            _ = self.translate
+            self.confirmMessage = _(u'confirm_message', default=u'Confirm deletion?')
         return self.confirmMessage
 
 
@@ -144,26 +143,31 @@ class ManagePortaltabsView(BrowserView):
         """
         Validate possible form input
         """
+        errors = {}
         if not form.get('title'):
-            self.errs['title'] = _(u'Title field is required, please provide it.')
+            errors['title'] = _(u'Title field is required, please provide it.')
         url = form.get('url')
         if not url:
-            self.errs['url'] = _(u'URL field is required, please provide it.')
+            errors['url'] = _(u'URL field is required, please provide it.')
         else:
             context = aq_inner(self.context)
             portal_state = getMultiAdapter((context, self.request), name=u'plone_portal_state')
             member = portal_state.member()
             if (url.startswith('tal:') or url.startswith('python:')) and \
                     not member.has_permission("collective.portaltabs: Use advanced expressions", portal_state.portal()):
-                self.errs['url'] = _('adv_expression_permission_denied_msg',
-                                     default=u'You have no permission for handle expressions like "tal:" or "python:".')
-        return self.errs
+                errors['url'] = _('adv_expression_permission_denied_msg',
+                                  default=u'You have no permission for handle expressions like "tal:" or "python:".')
+
+        return errors
 
 
     def form_add(self):
         form = self.request.form
-        if self._validateInput(form):
-            return
+        errors = self._validateInput(form)
+        if errors:
+            self.errs['__add__'] = errors 
+            return None
+
         category_id = form.get('action')
         title = form.get('title')
         action_id = form.get('id') or self.plone_utils.normalizeString(title)
@@ -178,18 +182,28 @@ class ManagePortaltabsView(BrowserView):
     def form_save(self):
         form = self.request.form
         visible = form.get('visible')
-        if self._validateInput(form):
-            return
-        for category_id, cat_action_id, title, url in zip(form.get('action', []),
-                                                          form.get('id', []),
-                                                          form.get('title', []),
-                                                          form.get('urls', [])):
+
+        params = zip(form.get('action', []),
+                     form.get('id', []),
+                     form.get('title', []),
+                     form.get('url', []))
+
+        stop = False
+        for x in params:
+            errors = self._validateInput({'action': x[0], 'id': x[1], 'title': x[2], 'url': x[3]})
+            if errors:
+                self.errs[x[1]] = errors 
+                stop = True
+        if stop:
+            return None
+        
+        for category_id, cat_action_id, title, url in params:
             action_id = cat_action_id.split('|')[1]
             action = self.portal_actions[category_id][action_id]
             action.manage_changeProperties(title = title,
                                            url_expr = _tallify(url),
                                            visible = cat_action_id in visible)
-        return _(u'Change saved')
+        return _(u'Changes saved')
 
 
     def form_delete(self):
@@ -200,6 +214,7 @@ class ManagePortaltabsView(BrowserView):
 
 
     def form_upload(self):
+        """Upload an action.xml compatible file"""
         fin = self.request.form['file']
         tree = ElementTree.parse(fin)
 
@@ -284,6 +299,26 @@ class ManagePortaltabsView(BrowserView):
             # If on Plone 4.1 or better we need to check "Plone Site Setup: Navigation" instead of "Manage portal"
             return member.has_permission("Plone Site Setup: Navigation", portal_state.portal())
         return member.has_permission("Manage portal", portal_state.portal())
+
+
+    @property
+    def check_canManagePortal(self):
+        context = aq_inner(self.context)
+        portal_state = getMultiAdapter((context, self.request), name=u'plone_portal_state')
+        member = portal_state.member()
+        return member.has_permission("Manage portal", portal_state.portal())
+
+
+    def canSeeRow(self, tab):
+        """Check if the current user can handle data containing tal: or python: espressions"""
+        context = aq_inner(self.context)
+        portal_state = getMultiAdapter((context, self.request), name=u'plone_portal_state')
+        member = portal_state.member()
+        if not member.has_permission("collective.portaltabs: Use advanced expressions", portal_state.portal()) \
+                and (tab['url'].startswith('python:') or tab['url'].startswith('tal:')):
+            return False
+        return True
+
 
     def __call__(self):
         request = self.request
