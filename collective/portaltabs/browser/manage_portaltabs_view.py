@@ -6,6 +6,8 @@ from Acquisition import aq_inner
 
 from zope.component import getMultiAdapter
 
+from plone.memoize.instance import memoize
+
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -66,12 +68,44 @@ class ManagePortaltabsView(BrowserView):
 
     def __init__(self, context, request):
         BrowserView.__init__(self, context, request)
+        self.saveRequest = {}
+        self.addRequest = {}
         self.confirmMessage = ''
         # will be {action_id: {data}, ...}
         self.errs = {}
         self.portal_actions = getToolByName(context, 'portal_actions')
         self.translation_service = getToolByName(context, 'translation_service')
         self.plone_utils = getToolByName(context, 'plone_utils')
+
+
+    def __call__(self):
+        request = self.request
+        request.set('disable_border', True)
+        fn = None
+        msg = None
+        
+        self._handleRequest(request)
+
+        form = request.form
+        if form.get('Save'):
+            fn = self.form_save
+        elif form.get('Add'):
+            fn = self.form_add
+        elif request.get('Delete'):
+            fn = self.form_delete
+        elif request.get('move'):
+            fn = self.form_move
+        elif request.get('Upload'):
+            fn = self.form_upload
+
+        if fn:
+            msg = fn()
+
+        if msg:
+            self.plone_utils.addPortalMessage(msg, type='info')
+            request.response.redirect('%s/@@%s' % (self.context.absolute_url(), self.__name__))
+        else:
+            return self.template()
 
 
     def translate(self, msgid, default):
@@ -95,6 +129,7 @@ class ManagePortaltabsView(BrowserView):
         Non-existing categories are ignored
         """
         category_ids = self.portal_actions.keys()
+        categories = []
         for line in getToolByName(self.context, 'portal_properties').portaltabs_settings.manageable_categories:
             try:
                 id, title = line.split('|', 1)
@@ -102,15 +137,16 @@ class ManagePortaltabsView(BrowserView):
                 id = title = line
             # Be sure that the CMF Category exists
             if id in category_ids:
-                yield id, title
+                categories.append( (id, title) )
+        return categories
 
 
+    @memoize
     def iter_translated_categories(self):
         """
         Generate (id, translated_title) tuples of managed categories
         """
-        for id, title in self.iter_categories():
-            yield id, self.translate(msgid=title, default=title)
+        return [(x[0], self.translate(msgid=x[1], default=x[1])) for x in self.iter_categories()]
 
 
     @property
@@ -129,14 +165,24 @@ class ManagePortaltabsView(BrowserView):
         return getToolByName(self.context, 'portal_properties').site_properties.disable_folder_sections
 
 
+    @property
     def saved_actions(self):
         """
         Return current saved tabs
         """
         results = []
         for category_id, title in self.iter_translated_categories():
-            results.append({'id': category_id, 'title': title, 'tabs': list(_serialize_category_tabs(self.portal_actions[category_id]))})
+            results.append({'id': category_id, 'title': title,
+                            'tabs': list(_serialize_category_tabs(self.portal_actions[category_id]))})
         return results
+
+
+    def getTabs(self, category_id):
+        """Obtain tab for a given category"""
+        for x in self.saved_actions:
+            if category_id==x['id']:
+                return x
+        return {}
 
 
     def _validateInput(self, form):
@@ -183,22 +229,21 @@ class ManagePortaltabsView(BrowserView):
         form = self.request.form
         visible = form.get('visible')
 
-        params = zip(form.get('action', []),
-                     form.get('id', []),
+        params = zip(form.get('id', []),
                      form.get('title', []),
                      form.get('url', []))
 
         stop = False
         for x in params:
-            errors = self._validateInput({'action': x[0], 'id': x[1], 'title': x[2], 'url': x[3]})
+            errors = self._validateInput({'id': x[0], 'title': x[1], 'url': x[2]})
             if errors:
-                self.errs[x[1]] = errors 
+                self.errs[x[0]] = errors 
                 stop = True
         if stop:
             return None
         
-        for category_id, cat_action_id, title, url in params:
-            action_id = cat_action_id.split('|')[1]
+        for cat_action_id, title, url in params:
+            category_id, action_id = cat_action_id.split('|')
             action = self.portal_actions[category_id][action_id]
             action.manage_changeProperties(title = title,
                                            url_expr = _tallify(url),
@@ -310,7 +355,9 @@ class ManagePortaltabsView(BrowserView):
 
 
     def canSeeRow(self, tab):
-        """Check if the current user can handle data containing tal: or python: espressions"""
+        """Check if the current user can see one of the table's row.
+        If the row contains a dangerous expressions, check if he can handle data containing
+        tal: or python:"""
         context = aq_inner(self.context)
         portal_state = getMultiAdapter((context, self.request), name=u'plone_portal_state')
         member = portal_state.member()
@@ -319,32 +366,28 @@ class ManagePortaltabsView(BrowserView):
             return False
         return True
 
+    def _handleRequest(self, request):
+        """manage request, to be used in the template
+        
+        
+        XXXX TODO
+        
+        
+        """
+        # if user pressed the Save button
+        for category_id in request.get('action'):
+            tabs = self.getTabs(category_id)['tabs']
+            for category_action_id, title, url, tab in zip(request.get('id'),
+                                                           request.get('title'),
+                                                           request.get('url'),
+                                                           tabs):
+                category_id, action_id = category_action_id.split('|')
+                row = {}
+                row['title'] = title or tab.get('title')
+                row['url'] = url or tab.get('url')
+                self.saveRequest[category_action_id] = row
 
-    def __call__(self):
-        request = self.request
-        request.set('disable_border', True)
-        fn = None
-        msg = None
-
-        form = request.form
-        if form.get('Save'):
-            fn = self.form_save
-        elif form.get('Add'):
-            fn = self.form_add
-        elif request.get('Delete'):
-            fn = self.form_delete
-        elif request.get('move'):
-            fn = self.form_move
-        elif request.get('Upload'):
-            fn = self.form_upload
-
-        if fn:
-            msg = fn()
-
-        if msg:
-            self.plone_utils.addPortalMessage(msg, type='info')
-            request.response.redirect('%s/@@%s' % (self.context.absolute_url(), self.__name__))
-        else:
-            return self.template()
+        # if user pressed the Add button
+        pass
 
 

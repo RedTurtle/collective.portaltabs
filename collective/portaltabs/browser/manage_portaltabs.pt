@@ -93,8 +93,7 @@
     </form>
 
 
-    <form
-          id="portaltabs_setup"
+    <form id="portaltabs_setup"
           method="post"
           class="enableFormTabbing enableUnloadProtection"
           tal:define="actions view/saved_actions;"
@@ -106,17 +105,20 @@
             <tal:avtabs define="tabs action/tabs">
             <legend tal:content="action/title"
                     tal:attributes="id string:fieldsetlegend-${action/id}">Portal tabs</legend>
+            
+			<input type="hidden" name="action:list" tal:attributes="value action/id" />
 
+			<!-- tab sequence -->
             <tal:tabs repeat="tab tabs">
             <div tal:define="ind repeat/tab/number;
                              even repeat/tab/even;
-							 errs python:view.errs.get(action.get('id')+'|'+tab.get('id'));"
+							 errs python:view.errs.get(action.get('id')+'|'+tab.get('id'));
+							 req python:view.saveRequest.get(action.get('id')+'|'+tab.get('id'));"
                  tal:attributes="class python:'tabSetup ' + (even and 'odd' or 'even')"
 				 tal:condition="python:view.canSeeRow(tab)">
                 <label tal:attributes="for string:tab-$ind-id;" tal:content="tab/id">Home</label>
                 <input type="hidden" name="id:list"
                        tal:attributes="value string:${action/id}|${tab/id};id string:tab-$ind-id;" />
-                <input type="hidden" name="action:list" tal:attributes="value action/id" />
                 <div class="field"
 				     tal:attributes="class python: errs and errs.get('title') and 'field error' or 'field'">
                     <label tal:attributes="for string:tab-$ind-title;" i18n:translate="">Title</label>
@@ -130,7 +132,8 @@
                             Error message
                    </div>
                     <input type="text" size="50" name="title:list"
-                           tal:attributes="value tab/title;id string:tab-$ind-title;" />
+                           tal:attributes="value req/title;
+						                   id string:tab-$ind-title;" />
                 </div>
                 <div class="field"
 				     tal:attributes="class python: errs and errs.get('url') and 'field error' or 'field'">
@@ -145,7 +148,8 @@
                             Error message
                    </div>
                     <input type="text" size="50" name="url:list" id="url"
-                           tal:attributes="value tab/url;id string:tab-$ind-url;" />
+                           tal:attributes="value req/url;
+						                   id string:tab-$ind-url;" />
                 </div>
                 <div class="field">
                     <input type="checkbox" name="visible"
