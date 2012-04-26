@@ -105,7 +105,7 @@ loaded, and changes done manually later will be reverted if you reinstall the pr
 To make Plone stopping remember about those actions, you need to:
 
 * uninstall your product that added the actions
-* remote the products from the ``portal_quickinstaller`` ("Contents" tab)
+* remove the products from the ``portal_quickinstaller`` ("Contents" tab)
 * remove the ``actions.xml`` file from your product
 * install again
 
