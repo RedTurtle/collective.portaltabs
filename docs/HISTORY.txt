@@ -17,8 +17,8 @@ Changelog
 ------------------
 
 * added input validations [keul]
-* more hep texts and translations [keul]
-* adde a direct link to the ZMI manage section [keul]
+* more help texts and translations [keul]
+* added a direct link to the ZMI manage section [keul]
 * added a way to upload Generic Setup compatible ``actions.xml`` file, to
   automatically load actions [marco.mariani]
 
