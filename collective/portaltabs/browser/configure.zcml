@@ -16,6 +16,7 @@
   <browser:resource
       name="newtab.png"
       file="newtab.png"
+      layer="..interfaces.IPortalTabsLayer"
       />
       
 </configure>
