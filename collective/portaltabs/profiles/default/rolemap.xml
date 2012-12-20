@@ -5,8 +5,12 @@
                 acquire="False">
       <role name="Manager"/>
 	  <role name="Site Administrator"/>
-    </permission>	
+    </permission>
     <permission name="collective.portaltabs: Use advanced expressions"
+                acquire="False">
+      <role name="Manager"/>
+    </permission>
+    <permission name="collective.portaltabs: Manage action categories"
                 acquire="False">
       <role name="Manager"/>
     </permission>

@@ -17,6 +17,10 @@
         id="collective.portaltabs.ManageAdvancedTabs"
         title="collective.portaltabs: Use advanced expressions"
      />
+  <permission
+        id="collective.portaltabs.ManageTabsCategories"
+        title="collective.portaltabs: Manage action categories"
+     />
 
   <include package=".browser" />
 
@@ -24,7 +28,7 @@
       name="default"
       title="Manage Portal Tabs"
       directory="profiles/default"
-      description="Product for customize from Plone the portal tabs section"
+      description="Manage site's portal tabs from Plone interface in a simple way"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 

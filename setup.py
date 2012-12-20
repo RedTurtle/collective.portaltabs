@@ -3,11 +3,11 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.2.0'
+version = '0.3.0.dev0'
 
 setup(name='collective.portaltabs',
       version=version,
-      description="Manage portal tabs from Plone, hiding difficulties",
+      description="Manage site's portal tabs from Plone interface in a simple way",
       long_description=open("README.rst").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
@@ -29,6 +29,7 @@ setup(name='collective.portaltabs',
       install_requires=[
           'setuptools',
           'collective.autopermission',
+          'plone.app.registry',
       ],
       entry_points="""
       # -*- Entry points: -*-

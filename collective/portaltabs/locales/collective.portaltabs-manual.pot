@@ -23,5 +23,5 @@ msgstr ""
 msgid "Manage Portal Tabs"
 msgstr ""
 
-msgid "Product for customize from Plone the portal tabs section"
+msgid "Manage site's portal tabs from Plone interface in a simple way"
 msgstr ""

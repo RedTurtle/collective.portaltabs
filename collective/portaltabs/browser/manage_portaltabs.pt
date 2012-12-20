@@ -76,9 +76,9 @@
                     all action defined inside.
                 </span><br/>
                 <span tal:omit-tag="" i18n:translate="help_xml_upload_warning">
-                    Be aware that only <a tal:attributes="href string:${context/portal_url}/portal_properties/portaltabs_settings/manage_propertiesForm"
+                    Be aware that only <a tal:attributes="href string:${context/portal_url}/@@manage-portaltabs-categories"
                                           i18n:name="help_xml_upload_link"
-										  tal:omit-tag="not:view/check_canManagePortal"
+										  tal:omit-tag="not:view/check_canPortalTabSettings"
                                           i18n:translate="">managed categories</a> will be taken.
                 </span>
             </div>

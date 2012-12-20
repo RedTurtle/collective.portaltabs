@@ -3,11 +3,9 @@
 from elementtree import ElementTree
 
 from Acquisition import aq_inner
-
-from zope.component import getMultiAdapter
+from zope.component import getMultiAdapter, queryUtility
 
 from plone.memoize.instance import memoize
-
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -16,7 +14,10 @@ from Products.CMFCore import permissions
 from Products.CMFCore.ActionInformation import Action
 from Products.CMFPlone.utils import getFSVersionTuple
 
-from collective.portaltabs import portaltabsMessageFactory as _
+from plone.registry.interfaces import IRegistry
+
+from collective.portaltabs import messageFactory as _
+from collective.portaltabs.interfaces import IPortalTabsSettings
 
 
 def _prettify(url_expr):
@@ -29,7 +30,6 @@ def _prettify(url_expr):
     if url_expr.startswith('string:'):
         return url_expr[7:]
     return url_expr
-
 
 
 def _tallify(url):
@@ -49,7 +49,6 @@ def _tallify(url):
     return url
 
 
-
 def _serialize_category_tabs(category):
     for action in category.values():
         yield {
@@ -61,10 +60,7 @@ def _serialize_category_tabs(category):
 
 
 
-
 class ManagePortaltabsView(BrowserView):
-
-    template = ViewPageTemplateFile('manage_portaltabs.pt')
 
     def __init__(self, context, request):
         BrowserView.__init__(self, context, request)
@@ -105,7 +101,7 @@ class ManagePortaltabsView(BrowserView):
             self.plone_utils.addPortalMessage(msg, type='info')
             request.response.redirect('%s/@@%s' % (self.context.absolute_url(), self.__name__))
         else:
-            return self.template()
+            return self.index()
 
 
     def translate(self, msgid, default):
@@ -129,12 +125,12 @@ class ManagePortaltabsView(BrowserView):
         Non-existing categories are ignored
         """
         category_ids = self.portal_actions.keys()
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IPortalTabsSettings, check=False)
         categories = []
-        for line in getToolByName(self.context, 'portal_properties').portaltabs_settings.manageable_categories:
-            try:
-                id, title = line.split('|', 1)
-            except ValueError:
-                id = title = line
+        for record in settings.manageable_categories:
+            id = record.category_id
+            title = record.category_title
             # Be sure that the CMF Category exists
             if id in category_ids:
                 categories.append( (id, title) )
@@ -347,11 +343,11 @@ class ManagePortaltabsView(BrowserView):
 
 
     @property
-    def check_canManagePortal(self):
+    def check_canPortalTabSettings(self):
         context = aq_inner(self.context)
         portal_state = getMultiAdapter((context, self.request), name=u'plone_portal_state')
         member = portal_state.member()
-        return member.has_permission("Manage portal", portal_state.portal())
+        return member.has_permission("collective.portaltabs: Manage action categories", portal_state.portal())
 
 
     def canSeeRow(self, tab):
@@ -375,7 +371,7 @@ class ManagePortaltabsView(BrowserView):
         
         """
         # if user pressed the Save button
-        for category_id in request.get('action'):
+        for category_id in request.get('action', []):
             tabs = self.getTabs(category_id)['tabs']
             for category_action_id, title, url, tab in zip(request.get('id'),
                                                            request.get('title'),

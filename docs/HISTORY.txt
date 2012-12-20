@@ -10,6 +10,9 @@ Changelog
 * tabs settings panel is now protected with a specific permission [keul]
 * protect the use of ``tal:`` or ``python:`` with a proper permission
   [keul]
+* removed the usage of CMF properties. General configuration migrated to
+  Plone registry
+  [keul]
 
 0.2.0 (2011-05-19)
 ------------------

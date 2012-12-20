@@ -2,5 +2,5 @@
 
 from zope.i18nmessageid import MessageFactory
 
-portaltabsMessageFactory = MessageFactory('collective.portaltabs')
+messageFactory = MessageFactory('collective.portaltabs')
 
