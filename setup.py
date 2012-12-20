@@ -8,7 +8,7 @@ version = '0.2.0'
 setup(name='collective.portaltabs',
       version=version,
       description="Manage portal tabs from Plone, hiding difficulties",
-      long_description=open("README.txt").read() + "\n" +
+      long_description=open("README.rst").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -19,7 +19,7 @@ setup(name='collective.portaltabs',
         ],
       keywords='plone portal-tabs plonegov',
       author='RedTurtle Technology',
-      author_email='sviluppoplone@redturtle.net',
+      author_email='sviluppoplone@redturtle.it',
       url='http://plone.org/products/collective.portaltabs',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
