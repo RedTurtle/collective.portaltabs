@@ -8,6 +8,7 @@
   <five:registerPackage package="." />
   <i18n:registerTranslations directory="locales" />
   <include package="collective.autopermission" />
+  <include package="plone.app.registry" />
 
   <permission
         id="collective.portaltabs.ManageTabs"
@@ -39,5 +40,15 @@
       description="Remove collective.portaltabs"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+
+  <genericsetup:upgradeStep
+        title="Upgrade collective.portaltabs"
+        description="Migrates collective.portaltabs to 0.3"
+        source="2000"
+        destination="2010"
+        handler=".setuphandlers.migrateTo2010"
+        sortkey="1"
+        profile="collective.portaltabs:default"
+    />
 
 </configure>

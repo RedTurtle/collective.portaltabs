@@ -362,28 +362,30 @@ class ManagePortaltabsView(BrowserView):
             return False
         return True
 
-    def _handleRequest(self, request):
-        """manage request, to be used in the template
-        
-        
-        XXXX TODO
-        
-        
-        """
-        # if user pressed the Save button
-        for category_id in request.get('action', []):
-            tabs = self.getTabs(category_id)['tabs']
-            for category_action_id, title, url, tab in zip(request.get('id'),
-                                                           request.get('title'),
-                                                           request.get('url'),
-                                                           tabs):
-                category_id, action_id = category_action_id.split('|')
-                row = {}
-                row['title'] = title or tab.get('title')
-                row['url'] = url or tab.get('url')
-                self.saveRequest[category_action_id] = row
 
-        # if user pressed the Add button
-        pass
+    def _handleRequest(self, request):
+        """manage request, to be used in the template for validation errors
+        """
+        # User pressed the Add button
+        if request.get('form.submit.edit'):
+            for category_id in request.get('action', []):
+                tabs = self.getTabs(category_id)['tabs']
+                for category_action_id, title, url, tab in zip(request.get('id'),
+                                                               request.get('title'),
+                                                               request.get('url'),
+                                                               tabs):
+                    category_id, action_id = category_action_id.split('|')
+                    row = {}
+                    row['title'] = title or tab.get('title')
+                    row['url'] = url or tab.get('url')
+                    self.saveRequest[category_action_id] = row
+        # User pressed the Add button
+        elif request.get('form.submit.add'):
+            category_id = request.get('action')
+            category_action_id = request.get('id')
+            row = {}
+            row['title'] = request.get('title')
+            row['url'] = request.get('url')
+            self.saveRequest[category_id] = row
 
 

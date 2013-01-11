@@ -5,18 +5,6 @@
       metal:use-macro="here/prefs_main_template/macros/master"
       i18n:domain="collective.portaltabs">
 
-<head>
-    <metal:css fill-slot="style_slot">
-      <style type="text/css">
-          <!--
-        .tabSetup .commands a {
-            margin: 0.2em 1em;
-        }
-        -->
-      </style>
-    </metal:css>
-</head>
-
 <body>
 
 <div metal:fill-slot="prefs_configlet_main">
@@ -56,16 +44,14 @@
         </dd>
     </dl>
 
-<span tal:replace="view/errs" />
-
-    <form
-          id="portaltabs_upload"
+    <form id="portaltabs_upload"
           method="post"
           class="enableFormTabbing enableUnloadProtection"
           enctype="multipart/form-data"
           tal:attributes="action string:${context/absolute_url}/@@manage-portaltabs">
 
         <div>
+        <input type="hidden" name="form.submit.upload" value="1" />
         <fieldset>
             <legend i18n:translate="">Upload XML file</legend>
             
@@ -99,7 +85,7 @@
           tal:define="actions view/saved_actions;"
           tal:attributes="action string:${context/absolute_url}/@@manage-portaltabs;
                           class python:len(actions)>1 and 'enableUnloadProtection enableFormTabbing' or 'enableUnloadProtection'">
-
+        <input type="hidden" name="form.submit.edit" value="1" />
         <fieldset tal:repeat="action actions"
                   tal:attributes="id string:fieldset-${action/id}">
             <tal:avtabs define="tabs action/tabs">
@@ -116,12 +102,12 @@
 							 req python:view.saveRequest.get(action.get('id')+'|'+tab.get('id'));"
                  tal:attributes="class python:'tabSetup ' + (even and 'odd' or 'even')"
 				 tal:condition="python:view.canSeeRow(tab)">
-                <label tal:attributes="for string:tab-$ind-id;" tal:content="tab/id">Home</label>
+                <label tal:attributes="for string:category-${tab/id}-tab-$ind-id;" tal:content="tab/id">Home</label>
                 <input type="hidden" name="id:list"
                        tal:attributes="value string:${action/id}|${tab/id};id string:tab-$ind-id;" />
                 <div class="field"
 				     tal:attributes="class python: errs and errs.get('title') and 'field error' or 'field'">
-                    <label tal:attributes="for string:tab-$ind-title;" i18n:translate="">Title</label>
+                    <label tal:attributes="for string:category-${tab/id}-tab-$ind-title;" i18n:translate="">Title</label>
                    <span class="fieldRequired" title="Required"
                          i18n:domain="plone"
                              i18n:attributes="title title_required;"
@@ -132,12 +118,12 @@
                             Error message
                    </div>
                     <input type="text" size="50" name="title:list"
-                           tal:attributes="value req/title;
-						                   id string:tab-$ind-title;" />
+                           tal:attributes="value req/title|tab/title;
+						                   id string:category-${tab/id}-tab-$ind-title;" />
                 </div>
                 <div class="field"
 				     tal:attributes="class python: errs and errs.get('url') and 'field error' or 'field'">
-                    <label tal:attributes="for string:tab-$ind-url;" i18n:translate="">URL</label>
+                    <label tal:attributes="for string:category-${tab/id}-tab-$ind-url;" i18n:translate="">URL</label>
                    <span class="fieldRequired" title="Required"
                          i18n:domain="plone"
                              i18n:attributes="title title_required;"
@@ -148,13 +134,13 @@
                             Error message
                    </div>
                     <input type="text" size="50" name="url:list" id="url"
-                           tal:attributes="value req/url;
-						                   id string:tab-$ind-url;" />
+                           tal:attributes="value req/url|tab/url;
+						                   id string:category-${tab/id}-tab-$ind-url;" />
                 </div>
                 <div class="field">
                     <input type="checkbox" name="visible"
-                           tal:attributes="id string:tab-$ind-visible;checked python:tab['visible'] and True or False;value string:${action/id}|${tab/id}" />
-                           <label tal:attributes="for string:tab-$ind-visible;" i18n:translate="">Visible?</label>
+                           tal:attributes="id string:category-${tab/id}-tab-$ind-visible;checked python:tab['visible'] and True or False;value string:${action/id}|${tab/id}" />
+                           <label tal:attributes="for string:category-${tab/id}-tab-$ind-visible;" i18n:translate="">Visible?</label>
                 </div>
                 <div class="field commands">
                     <a href="" title="Delete this tab" i18n:attributes="title"
@@ -194,12 +180,12 @@
         <input type="submit" class="context" name="Save" value="Save" i18n:attributes="value" />
     </form>
     
-    <form
-          id="portaltabs_add"
+    <form id="portaltabs_add"
           method="post"
           class="enableUnloadProtection"
           tal:attributes="action string:${context/absolute_url}/@@manage-portaltabs">
         <div>
+        <input type="hidden" name="form.submit.add" value="1" />
         <fieldset tal:define="errs view/errs/__add__|nothing">
             <legend i18n:translate="">New tab</legend>
 

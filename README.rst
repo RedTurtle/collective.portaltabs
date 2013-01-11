@@ -112,8 +112,8 @@ To make Plone stopping remember about those actions, you need to:
 TODO
 ====
 
-* Block users from creating TAL/Python expressions if you don't want
 * Tests
+* Provide some AJAX fancy features for selecting portal contents
 
 Bug report and feature request
 ==============================
@@ -148,7 +148,7 @@ Authors
 
 This product was developed by RedTurtle Technology team.
 
-.. image:: http://www.redturtle.net/redturtle_banner.png
+.. image:: http://www.redturtle.it/redturtle_banner.png
    :alt: RedTurtle Technology Site
-   :target: http://www.redturtle.net/
+   :target: http://www.redturtle.it/
 

@@ -1,0 +1,47 @@
+collective.portaltabs usage: edit entry
+=======================================
+
+Setup:
+
+>>> from pyquery import PyQuery
+>>> from plone.testing.z2 import Browser
+>>> app = layer['app']
+>>> portal = layer['portal']
+>>> browser = Browser(app)
+>>> browser.handleErrors = False
+
+Now login:
+
+>>> browser.open(portal.portal_url() + '/login_form')
+>>> browser.getControl(name='__ac_name').value = 'admin_user'
+>>> browser.getControl(name='__ac_password').value = 'secret'
+>>> browser.getControl(name='submit').click()
+
+Go the the tabs management:
+
+>>> browser.open(portal.portal_url() + '/@@manage-portaltabs')
+
+Now editing the "Home" link title.
+
+>>> browser.getControl(name='title:list').value = 'A Great Homepage Site!'
+>>> browser.getControl('Save').click()
+>>> 'Changes saved' in browser.contents
+True
+>>> pq = PyQuery(browser.contents)
+>>> pq('#portal-globalnav #portaltab-index_html').text()
+'A Great Homepage Site!'
+>>> browser.getLink('A Great Homepage Site!').click()
+>>> browser.url == portal.portal_url()
+True
+
+Now edit the same link's URL:
+
+>>> browser.open(portal.portal_url() + '/@@manage-portaltabs')
+>>> browser.getControl(name='url:list').value = 'http://foo.org/'
+>>> browser.getControl('Save').click()
+>>> 'Changes saved' in browser.contents
+True
+>>> pq = PyQuery(browser.contents)
+>>> pq('#portal-globalnav #portaltab-index_html a').attr('href')
+'http://foo.org/'
+

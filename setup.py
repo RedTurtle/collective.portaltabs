@@ -5,6 +5,8 @@ import os
 
 version = '0.3.0.dev0'
 
+tests_require = ['plone.app.testing', 'pyquery']
+
 setup(name='collective.portaltabs',
       version=version,
       description="Manage site's portal tabs from Plone interface in a simple way",
@@ -14,8 +16,11 @@ setup(name='collective.portaltabs',
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
+        "Framework :: Plone :: 4.0",
+        "Framework :: Plone :: 4.1",
+        "Framework :: Plone :: 4.2",
         "Programming Language :: Python",
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         ],
       keywords='plone portal-tabs plonegov',
       author='RedTurtle Technology',
@@ -26,6 +31,8 @@ setup(name='collective.portaltabs',
       namespace_packages=['collective'],
       include_package_data=True,
       zip_safe=False,
+      tests_require=tests_require,
+      extras_require=dict(test=tests_require),
       install_requires=[
           'setuptools',
           'collective.autopermission',
