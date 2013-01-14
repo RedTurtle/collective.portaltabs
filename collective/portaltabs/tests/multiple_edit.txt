@@ -1,5 +1,5 @@
-collective.portaltabs usage: edit entry
-=======================================
+collective.portaltabs usage: edit many entries
+==============================================
 
 Setup:
 
@@ -9,6 +9,18 @@ Setup:
 >>> portal = layer['portal']
 >>> browser = Browser(app)
 >>> browser.handleErrors = False
+
+We manually prepare another portal tab:
+
+>>> portal_tabs = portal.portal_actions.portal_tabs
+
+
+
+
+XXXX TO BE DONE
+
+
+
 
 Now login:
 
