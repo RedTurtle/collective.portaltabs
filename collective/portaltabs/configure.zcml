@@ -44,9 +44,9 @@
   <genericsetup:upgradeStep
         title="Upgrade collective.portaltabs"
         description="Migrates collective.portaltabs to 0.3"
-        source="2000"
-        destination="2010"
-        handler=".setuphandlers.migrateTo2010"
+        source="1000"
+        destination="2000"
+        handler=".setuphandlers.migrateTo2000"
         sortkey="1"
         profile="collective.portaltabs:default"
     />
