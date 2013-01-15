@@ -12,3 +12,11 @@
 #content .formPanel .even {
 	background-color: #fafafa;
 }
+
+.tabTitle {
+	font-size: 120%;
+}
+
+.tabSetup .field input[type="text"][size] {
+	width: 95%;
+}

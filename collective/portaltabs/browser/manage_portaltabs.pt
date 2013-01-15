@@ -102,7 +102,7 @@
 							 req python:view.saveRequest.get(action.get('id')+'|'+tab.get('id'));"
                  tal:attributes="class python:'tabSetup ' + (even and 'odd' or 'even')"
 				 tal:condition="python:view.canSeeRow(tab)">
-                <label tal:attributes="for string:category-${tab/id}-tab-$ind-id;" tal:content="tab/id">Home</label>
+                <label class="tabTitle" tal:attributes="for string:category-${tab/id}-tab-$ind-id;" tal:content="tab/id">Home</label>
                 <input type="hidden" name="id:list"
                        tal:attributes="value string:${action/id}|${tab/id};id string:tab-$ind-id;" />
                 <div class="field"
