@@ -66,11 +66,14 @@ The product try to hide some of the too-technical feature you have available in 
 portal_actions tool management, however all features are still there.
 
 * to create an absolute link to something, just type the link (e.g: "http://foo.org")
-* TAL espression are still available, but you need to start them with a "*tal:*"
-* Python expression are still available, but you need to start them with a "*python:*"
-* when you need to create links to URL inside the site, just type "*/folder/foo*"
+* when you need to create links to URL inside the site, just type "``/folder/foo``"
   (note that this path *can* be a content path, but no check are done at all)
-* inside an URL, you can still use expressions in the normal form "${foo1/foo2/...}"
+* TAL espression are still available, but you need to start them with a "``tal:``"
+* Python expression are still available, but you need to start them with a "``python:``"
+* inside an URL, you can still use TALES expressions in the normal form "``${foo1/foo2/...}``"
+
+For security reason, usage on "``python:``", "``tal:``" and in-string TALES with "``$``" are protected
+by another permissions "*collective.portaltabs: Use advanced expressions*", given only to *Manager* role.
 
 Manage additional actions categories
 ------------------------------------
@@ -112,7 +115,7 @@ To make Plone stopping remember about those actions, you need to:
 TODO
 ====
 
-* Tests
+* More tests
 * Provide some AJAX fancy features for selecting portal contents
 
 Bug report and feature request

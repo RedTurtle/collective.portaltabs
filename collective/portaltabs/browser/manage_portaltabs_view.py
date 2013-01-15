@@ -198,7 +198,12 @@ class ManagePortaltabsView(BrowserView):
             if (url.startswith('tal:') or url.startswith('python:')) and \
                     not member.has_permission("collective.portaltabs: Use advanced expressions", portal_state.portal()):
                 errors['url'] = _('adv_expression_permission_denied_msg',
-                                  default=u'You have no permission for handle expressions like "tal:" or "python:".')
+                                  default=u'You have no permission to handle expressions like "tal:" or "python:".')
+            if url.find('$')>-1 and not \
+                    member.has_permission("collective.portaltabs: Use advanced expressions", portal_state.portal()):
+                errors['url'] = _('tales_expression_permission_denied_msg',
+                                  default=u'You have no permission to handle TALES expressions in static links.')
+
 
         return errors
 
@@ -359,6 +364,9 @@ class ManagePortaltabsView(BrowserView):
         member = portal_state.member()
         if not member.has_permission("collective.portaltabs: Use advanced expressions", portal_state.portal()) \
                 and (tab['url'].startswith('python:') or tab['url'].startswith('tal:')):
+            return False
+        if not member.has_permission("collective.portaltabs: Use advanced expressions", portal_state.portal()) \
+                and tab['url'].find('$')>-1:
             return False
         return True
 

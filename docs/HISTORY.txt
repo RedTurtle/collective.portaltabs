@@ -8,10 +8,12 @@ Changelog
 * support for query expression starting with ``/``, that generate links to
   internal section of the site [keul]
 * tabs settings panel is now protected with a specific permission [keul]
-* protected the use of ``tal:`` or ``python:`` with a proper permission
+* protected the use of ``tal:``, ``python:`` and ``$`` with a proper permission
   [keul]
 * removed the usage of CMF properties. General configuration migrated to
   Plone registry
+  [keul]
+* Added tests
   [keul]
 
 0.2.0 (2011-05-19)
