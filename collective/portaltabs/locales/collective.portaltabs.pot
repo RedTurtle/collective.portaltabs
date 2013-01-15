@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-12-20 16:05+0000\n"
+"POT-Creation-Date: 2013-01-15 09:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.portaltabs\n"
 
-#: ../browser/manage_portaltabs.pt:268
+#: ../browser/manage_portaltabs.pt:256
 msgid "Add"
 msgstr ""
 
@@ -30,11 +30,11 @@ msgid "Category ID"
 msgstr ""
 
 #: ../browser/controlpanel.py:32
-#: ../browser/manage_portaltabs_view.py:251
+#: ../browser/manage_portaltabs_view.py:252
 msgid "Changes saved"
 msgstr ""
 
-#: ../browser/manage_portaltabs.pt:160
+#: ../browser/manage_portaltabs.pt:146
 msgid "Delete this tab"
 msgstr ""
 
@@ -42,11 +42,11 @@ msgstr ""
 msgid "Edit cancelled"
 msgstr ""
 
-#: ../browser/manage_portaltabs_view.py:313
+#: ../browser/manage_portaltabs_view.py:314
 msgid "File uploaded"
 msgstr ""
 
-#: ../browser/manage_portaltabs.pt:258
+#: ../browser/manage_portaltabs.pt:246
 msgid "Id"
 msgstr ""
 
@@ -60,23 +60,23 @@ msgstr ""
 msgid "Manage site's portal tabs from Plone interface in a simple way"
 msgstr ""
 
-#: ../browser/manage_portaltabs.pt:180
+#: ../browser/manage_portaltabs.pt:166
 msgid "Move bottom"
 msgstr ""
 
-#: ../browser/manage_portaltabs.pt:176
+#: ../browser/manage_portaltabs.pt:162
 msgid "Move down"
 msgstr ""
 
-#: ../browser/manage_portaltabs.pt:166
+#: ../browser/manage_portaltabs.pt:152
 msgid "Move top"
 msgstr ""
 
-#: ../browser/manage_portaltabs.pt:170
+#: ../browser/manage_portaltabs.pt:156
 msgid "Move up"
 msgstr ""
 
-#: ../browser/manage_portaltabs.pt:204
+#: ../browser/manage_portaltabs.pt:191
 msgid "New tab"
 msgstr ""
 
@@ -88,27 +88,27 @@ msgid "Portal tabs categories"
 msgstr ""
 
 #: ../browser/controlpanel.py:25
-#: ../browser/manage_portaltabs.pt:194
+#: ../browser/manage_portaltabs.pt:180
 msgid "Save"
 msgstr ""
 
-#: ../browser/manage_portaltabs_view.py:225
+#: ../browser/manage_portaltabs_view.py:226
 msgid "Tab added"
 msgstr ""
 
-#: ../browser/manage_portaltabs_view.py:258
+#: ../browser/manage_portaltabs_view.py:259
 msgid "Tab deleted"
 msgstr ""
 
-#: ../browser/manage_portaltabs_view.py:334
+#: ../browser/manage_portaltabs_view.py:335
 msgid "Tab moved"
 msgstr ""
 
-#: ../browser/manage_portaltabs.pt:124
+#: ../browser/manage_portaltabs.pt:110
 msgid "Title"
 msgstr ""
 
-#: ../browser/manage_portaltabs_view.py:194
+#: ../browser/manage_portaltabs_view.py:190
 msgid "Title field is required, please provide it."
 msgstr ""
 
@@ -116,52 +116,52 @@ msgstr ""
 msgid "Title to display"
 msgstr ""
 
-#: ../browser/manage_portaltabs.pt:140
+#: ../browser/manage_portaltabs.pt:126
 msgid "URL"
 msgstr ""
 
-#: ../browser/manage_portaltabs_view.py:197
+#: ../browser/manage_portaltabs_view.py:193
 msgid "URL field is required, please provide it."
 msgstr ""
 
-#: ../browser/manage_portaltabs.pt:89
+#: ../browser/manage_portaltabs.pt:75
 msgid "Upload"
 msgstr ""
 
-#: ../browser/manage_portaltabs.pt:70
+#: ../browser/manage_portaltabs.pt:56
 msgid "Upload XML file"
 msgstr ""
 
-#: ../browser/manage_portaltabs.pt:157
+#: ../browser/manage_portaltabs.pt:143
 msgid "Visible?"
 msgstr ""
 
-#: ../browser/manage_portaltabs.pt:45
+#: ../browser/manage_portaltabs.pt:33
 msgid "Warning"
 msgstr ""
 
-#. Default: "You have no permission for handle expressions like \"tal:\" or \"python:\"."
-#: ../browser/manage_portaltabs_view.py:204
+#. Default: "You have no permission to handle expressions like \"tal:\" or \"python:\"."
+#: ../browser/manage_portaltabs_view.py:200
 msgid "adv_expression_permission_denied_msg"
 msgstr ""
 
 #. Default: "Confirm deletion?"
-#: ../browser/manage_portaltabs_view.py:122
+#: ../browser/manage_portaltabs_view.py:118
 msgid "confirm_message"
 msgstr ""
 
 #. Default: "Be aware that the \"Automatically generate tabs \" option is selected. You will not be able to handle tabs automatically generated."
-#: ../browser/manage_portaltabs.pt:49
+#: ../browser/manage_portaltabs.pt:37
 msgid "description_portaltabs_foldersection"
 msgstr ""
 
 #. Default: "Lets you control tabs of the site."
-#: ../browser/manage_portaltabs.pt:40
+#: ../browser/manage_portaltabs.pt:28
 msgid "description_portaltabs_setup"
 msgstr ""
 
 #. Default: "Portal Tabs Settings"
-#: ../browser/manage_portaltabs.pt:29
+#: ../browser/manage_portaltabs.pt:17
 msgid "heading_portaltabs_setup"
 msgstr ""
 
@@ -170,52 +170,57 @@ msgstr ""
 msgid "help_action_categories_settings_editform"
 msgstr ""
 
+#. Default: "Will be displayed in the relative control panel fieldset"
+#: ../persistent_field.py:15
+msgid "help_category_title"
+msgstr ""
+
 #. Default: "Users will be able to manage only categories listed there"
 #: ../interfaces.py:23
 msgid "help_manageable_categories"
 msgstr ""
 
 #. Default: "Please, select also in what action category you want to add the new tab."
-#: ../browser/manage_portaltabs.pt:213
+#: ../browser/manage_portaltabs.pt:201
 msgid "help_portaltabs_categorysel"
 msgstr ""
 
 #. Default: "Optional, if not provided will be generated from the title."
-#: ../browser/manage_portaltabs.pt:259
+#: ../browser/manage_portaltabs.pt:247
 msgid "help_portaltabs_id_optional"
 msgstr ""
 
 #. Default: "No tabs in this category yet."
-#: ../browser/manage_portaltabs.pt:188
+#: ../browser/manage_portaltabs.pt:174
 msgid "help_portaltabs_notab"
 msgstr ""
 
 #. Default: "What you want to see in the site tab."
-#: ../browser/manage_portaltabs.pt:228
+#: ../browser/manage_portaltabs.pt:216
 msgid "help_portaltabs_title"
 msgstr ""
 
 #. Default: "Whatever you want to do when the user click on the tab."
-#: ../browser/manage_portaltabs.pt:246
+#: ../browser/manage_portaltabs.pt:234
 msgid "help_portaltabs_url"
 msgstr ""
 
 #. Default: "If you have a \"Generic Setup profile\" compatible file (like an \"actions.xml\") you can upload it there then load all action defined inside."
-#: ../browser/manage_portaltabs.pt:73
+#: ../browser/manage_portaltabs.pt:59
 msgid "help_xml_upload"
 msgstr ""
 
 #. Default: "Be aware that only ${help_xml_upload_link} will be taken."
-#: ../browser/manage_portaltabs.pt:79
+#: ../browser/manage_portaltabs.pt:65
 msgid "help_xml_upload_warning"
 msgstr ""
 
 #. Default: "Go to the Navigation Settings"
-#: ../browser/manage_portaltabs.pt:53
+#: ../browser/manage_portaltabs.pt:41
 msgid "link_portaltabs_foldersection"
 msgstr ""
 
-#: ../browser/manage_portaltabs.pt:79
+#: ../browser/manage_portaltabs.pt:65
 msgid "managed categories"
 msgstr ""
 
@@ -225,5 +230,10 @@ msgstr ""
 
 #: ../interfaces.py:26
 msgid "portal_action category"
+msgstr ""
+
+#. Default: "You have no permission to handle TALES expressions in static links."
+#: ../browser/manage_portaltabs_view.py:204
+msgid "tales_expression_permission_denied_msg"
 msgstr ""
 

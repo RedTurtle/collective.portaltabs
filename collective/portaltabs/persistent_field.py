@@ -11,7 +11,10 @@ from collective.portaltabs import messageFactory as _
 
 class IPortalActionCategory(Interface):
     category_id = schema.ASCIILine(title=_(u"Category ID"), required=True)
-    category_title = schema.TextLine(title=_(u"Title to display"), required=True)
+    category_title = schema.TextLine(title=_(u"Title to display"),
+                                     description=_('help_category_title',
+                                                   default="Will be displayed in the relative control panel fieldset"),
+                                     required=True)
 
 class PortalActionCategory(object):
     implements(IPortalActionCategory)
