@@ -4,7 +4,7 @@ Changelog
 0.3.0 (Unreleased)
 ------------------
 
-* updated to Plone 4.1/4.2 security and new "Site Administrator" role [keul]
+* updated to Plone 4.1+ security and new "Site Administrator" role [keul]
 * support for query expression starting with ``/``, that generate links to
   internal section of the site [keul]
 * tabs settings panel is now protected with a specific permission [keul]
