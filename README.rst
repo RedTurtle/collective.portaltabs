@@ -17,16 +17,16 @@ Going deeply:
 * you don't want (or you can't) that your power user will need to go to ZMI
   (for example, the Plone 4.1 "*Site Administrator*" role can't)
 * you still want to make them able to manage portal tabs
-* you users don't know nothing about TAL and python, and commonly want only to add static
+* your users don't know nothing about TAL and python, and commonly want only to add static
   links to the site
-* your additional tab don't need advanced features like condition for being seen, or permissions
+* your additional tabs don't need advanced features like condition for being seen, or permissions
   (for this, you can still go to ZMI)
 
 When you don't need this
 ------------------------
 
-If you only need to port into Plone interface the "*portal_action*" tool customization, you will find
-a great product in `quintagroup.plonetabs`__
+If you only need to port into Plone interface the "*portal_action*" tool customizationthis is not your
+product. Try to check `quintagroup.plonetabs`__ instead.
 
 __ http://pypi.python.org/pypi/quintagroup.plonetabs/
 
@@ -52,7 +52,8 @@ product installation.
 The "*Portal Tabs settings*" view is composed by two section; the first one for make changes to
 existing tabs (and also order and delete them), and the second for adding new tabs.
 
-.. image:: http://keul.it/images/plone/collective.portaltabs-0.2.0-01.png
+.. figure:: http://blog.redturtle.it/pypi-images/collective.portaltabs/collective.portaltabs-0.3.0-02.png/image_preview
+   :target: http://blog.redturtle.it/pypi-images/collective.portaltabs/collective.portaltabs-0.3.0-02.png/
    :alt: Manage portal tabs panel view
 
 Newly created tab only need two kind of information: the name of the tab to be displayed (title)
@@ -78,19 +79,19 @@ by another permissions "*collective.portaltabs: Use advanced expressions*", give
 Manage additional actions categories
 ------------------------------------
 
-You can use collective.portaltabs to handle also other categories than "*portal_tabs*". To do this you
-need to go to ZMI, in the "*portal_properties*" tool and change the "*portaltabs_settings*".
+You can use collective.portaltabs to handle also other CMF action categorie than "*portal_tabs*".
+To do this you need to configure what other categories can be handled accessing the
+"*@@manage-portaltabs-categories*" settings page.
 
-In the "*manageable_categories*" you can add additional entries::
+.. figure:: http://blog.redturtle.it/pypi-images/collective.portaltabs/collective.portaltabs-0.3.0-03.png/image_preview
+   :target: http://blog.redturtle.it/pypi-images/collective.portaltabs/collective.portaltabs-0.3.0-03.png/
+   :alt: Categories to be handled
 
-    portal_tabs|Portal tabs
-    foo_tabs|My special tabs 
-
-All entries are if the form "actions_id|Title to be displayed" and the *action_id*
-action category *must* be exists.
+All entries must match a CMF action category that exists.
 Going back to the "*Portal Tabs settings*" make possible to handle also those new actions
 
-.. image:: http://keul.it/images/plone/collective.portaltabs-0.2.0-02.png
+.. figure:: http://blog.redturtle.it/pypi-images/collective.portaltabs/collective.portaltabs-0.3.0-04.png/image_preview
+   :target: http://blog.redturtle.it/pypi-images/collective.portaltabs/collective.portaltabs-0.3.0-04.png/
    :alt: Multiple CMF Category panel
 
 Upload directly an "actions.xml" file
