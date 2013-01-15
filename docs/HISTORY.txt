@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.3.0 (Unreleased)
+0.3.0 (2013-01-15)
 ------------------
 
 * updated to Plone 4.1+ security and new "Site Administrator" role [keul]
