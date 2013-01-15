@@ -27,6 +27,7 @@ class PortalTabLayer(PloneSandboxLayer):
         portal.acl_users.userFolderAddUser('admin_user', 'secret', ['Member', 'Manager'], [])
         portal.acl_users.userFolderAddUser('sa_user', 'secret', ['Member', 'Site Administrator'], [])
 
+
 PORTAL_TABS_FIXTURE = PortalTabLayer()
 PORTAL_TABS_INTEGRATION_TESTING = \
     IntegrationTesting(bases=(PORTAL_TABS_FIXTURE, ),
