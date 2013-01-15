@@ -381,11 +381,10 @@ class ManagePortaltabsView(BrowserView):
                     self.saveRequest[category_action_id] = row
         # User pressed the Add button
         elif request.get('form.submit.add'):
-            category_id = request.get('action')
-            category_action_id = request.get('id')
             row = {}
             row['title'] = request.get('title')
             row['url'] = request.get('url')
-            self.saveRequest[category_id] = row
+            row['id'] = request.get('id')
+            self.addRequest = row
 
 

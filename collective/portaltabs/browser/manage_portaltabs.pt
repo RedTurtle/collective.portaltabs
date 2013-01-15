@@ -183,6 +183,7 @@
     <form id="portaltabs_add"
           method="post"
           class="enableUnloadProtection"
+		  tal:define="req view/addRequest"
           tal:attributes="action string:${context/absolute_url}/@@manage-portaltabs">
         <div>
         <input type="hidden" name="form.submit.add" value="1" />
@@ -193,7 +194,8 @@
                     <div class="field" tal:condition="python:len(categories)>1">
                         <select name="action">
                             <option tal:repeat="category categories"
-                                    tal:attributes="value category/id"
+                                    tal:attributes="value category/id;
+									                selected python:request.get('action', '')==category['id'];"
                                     tal:content="category/title"></option>
                         </select>
                         <div class="formHelp" i18n:translate="help_portaltabs_categorysel">
@@ -220,7 +222,7 @@
                                  Error message
                         </div>
                         <input type="text" size="50" name="title" id="title"
-                               tal:attributes="value view/request/title|nothing"/>
+                               tal:attributes="value req/title|nothing"/>
                     </div>
                     <div class="field"
                          tal:attributes="class python: errs and errs.get('url') and 'field error' or 'field'">
@@ -238,7 +240,7 @@
                                  Error message
                         </div>
                         <input type="text" size="50" name="url" id="url"
-                               tal:attributes="value view/request/url|nothing"/>
+                               tal:attributes="value req/url|nothing"/>
                     </div>
                     <div class="field">
                         <label for="id" i18n:translate="">Id</label>
@@ -246,7 +248,7 @@
                             Optional, if not provided will be generated from the title.
                         </div>
                         <input type="text" size="50" name="id" id="id"
-                               tal:attributes="value view/request/id|nothing"/>
+                               tal:attributes="value req/id|nothing"/>
                     </div>
                 </div>
 
