@@ -1,23 +1,21 @@
 # -*- coding: utf-8 -*-
 
-from elementtree import ElementTree
-
+from AccessControl import getSecurityManager
+from AccessControl import Unauthorized
 from Acquisition import aq_inner
-from zope.component import getMultiAdapter, queryUtility
-
-from plone.memoize.instance import memoize
-from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
-from Products.CMFCore.utils import getToolByName
 from Products.CMFCore import permissions
 from Products.CMFCore.ActionInformation import Action
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import getFSVersionTuple
-
-from plone.registry.interfaces import IRegistry
-
+from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from collective.portaltabs import config
 from collective.portaltabs import messageFactory as _
 from collective.portaltabs.interfaces import IPortalTabsSettings
+from elementtree import ElementTree
+from plone.memoize.instance import memoize
+from plone.registry.interfaces import IRegistry
+from zope.component import getMultiAdapter, queryUtility
 
 
 def _prettify(url_expr):
@@ -55,6 +53,7 @@ def _serialize_category_tabs(category):
                 'id': action.id,
                 'title': action.title,
                 'url': _prettify(action.getProperty('url_expr', '')),
+                'condition': action.getProperty('available_expr', None),
                 'visible': action.getProperty('visible', False),
                 }
 
@@ -102,6 +101,11 @@ class ManagePortaltabsView(BrowserView):
             request.response.redirect('%s/@@%s' % (self.context.absolute_url(), self.__name__))
         else:
             return self.index()
+
+
+    def can_manage_visibility_expr(self):
+        sm = getSecurityManager()
+        return sm.checkPermission(config.PERMISSION_MANAGE_TAB_CONDITION, self.context)
 
 
     def translate(self, msgid, default):
@@ -218,9 +222,16 @@ class ManagePortaltabsView(BrowserView):
         category_id = form.get('action')
         title = form.get('title')
         action_id = form.get('id') or self.plone_utils.normalizeString(title)
+        
+        if form.get('condition', '').strip():
+            sm = getSecurityManager()
+            if not sm.checkPermission(config.PERMISSION_MANAGE_TAB_CONDITION, self.context):
+                raise(Unauthorized("You user can't manage tab visibility expression"))
+        
         action = Action(action_id,
                         title=title,
                         url_expr=_tallify(form.get('url')),
+                        available_expr=form.get('condition'),
                         permissions=(permissions.View,))
         self.portal_actions[category_id]._setObject(action_id, action)
         return _(u'Tab added')
@@ -229,26 +240,36 @@ class ManagePortaltabsView(BrowserView):
     def form_save(self):
         form = self.request.form
         visible = form.get('visible')
+        size = len(form.get('id', []))
 
         params = zip(form.get('id', []),
                      form.get('title', []),
-                     form.get('url', []))
+                     form.get('url', []),
+                     form.get('condition', []) or (' ' * (size-1)).split(' '), 
+                    )
 
         stop = False
         for x in params:
-            errors = self._validateInput({'id': x[0], 'title': x[1], 'url': x[2]})
+            errors = self._validateInput({'id': x[0], 'title': x[1], 'url': x[2], 'condition': x[3]})
             if errors:
                 self.errs[x[0]] = errors 
                 stop = True
         if stop:
             return None
         
-        for cat_action_id, title, url in params:
+        for cat_action_id, title, url, condition in params:
             category_id, action_id = cat_action_id.split('|')
             action = self.portal_actions[category_id][action_id]
+
+            if condition.strip():
+                sm = getSecurityManager()
+                if not sm.checkPermission(config.PERMISSION_MANAGE_TAB_CONDITION, self.context):
+                    raise(Unauthorized("You user can't manage tab visibility expression"))
+
             action.manage_changeProperties(title = title,
                                            url_expr = _tallify(url),
-                                           visible = cat_action_id in visible)
+                                           visible = cat_action_id in visible,
+                                           available_expr=condition)
         return _(u'Changes saved')
 
 
@@ -378,20 +399,24 @@ class ManagePortaltabsView(BrowserView):
         if request.get('form.submit.edit'):
             for category_id in request.get('action', []):
                 tabs = self.getTabs(category_id)['tabs']
-                for category_action_id, title, url, tab in zip(request.get('id'),
-                                                               request.get('title'),
-                                                               request.get('url'),
-                                                               tabs):
+                for category_action_id, title, url, \
+                        condition, tab in zip(request.get('id'),
+                                              request.get('title'),
+                                              request.get('url'),
+                                              request.get('condition') or (' ' * (len(tabs)-1)).split(' '),
+                                              tabs):
                     category_id, action_id = category_action_id.split('|')
                     row = {}
                     row['title'] = title or tab.get('title')
                     row['url'] = url or tab.get('url')
+                    row['condition'] = condition or tab.get('condition')
                     self.saveRequest[category_action_id] = row
         # User pressed the Add button
         elif request.get('form.submit.add'):
             row = {}
             row['title'] = request.get('title')
             row['url'] = request.get('url')
+            row['condition'] = request.get('condition')
             row['id'] = request.get('id')
             self.addRequest = row
 

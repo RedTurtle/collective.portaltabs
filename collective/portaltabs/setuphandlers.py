@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from zope.component import queryUtility
-
 from Products.CMFCore.utils import getToolByName
-
 from plone.registry.interfaces import IRegistry
-
 from collective.portaltabs import logger
 from collective.portaltabs.interfaces import IPortalTabsSettings
 from collective.portaltabs.persistent_field import PortalActionCategory
 
+
 PROFILE_ID = 'profile-collective.portaltabs:default'
+
 
 def _moveToPropertySheet(portal):
     # phase 1: copy properties to registry
@@ -27,8 +26,16 @@ def _moveToPropertySheet(portal):
     portal.portal_properties.manage_delObjects(['portaltabs_settings'])
     logger.info("Old portaltabs_settings property sheet deleted")
 
+
 def migrateTo2000(portal):
     setup_tool = getToolByName(portal, 'portal_setup')
     setup_tool.runAllImportStepsFromProfile(PROFILE_ID)
     _moveToPropertySheet(portal)
     logger.info("Migrated to 0.3.0")
+
+
+def migrateTo2100(portal):
+    setup_tool = getToolByName(portal, 'portal_setup')
+    logger.info("Registering new permission")
+    setup_tool.runAllImportStepsFromProfile("profile-collective.portaltabs:to_2100")
+    logger.info("Migrated to 0.4.0")

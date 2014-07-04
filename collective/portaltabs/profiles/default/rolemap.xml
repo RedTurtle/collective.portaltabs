@@ -14,5 +14,9 @@
                 acquire="False">
       <role name="Manager"/>
     </permission>
+    <permission name="collective.portaltabs: Manage tab condition expression"
+                acquire="False">
+      <role name="Manager"/>
+    </permission>
   </permissions>
 </rolemap>

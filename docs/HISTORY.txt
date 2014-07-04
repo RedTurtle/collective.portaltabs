@@ -1,11 +1,15 @@
 Changelog
 =========
 
-0.3.1 (unreleased)
+0.4.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Restored controlpanel icons no more delivered by Plone 4.3
+  [keul]
+- Fixed link to navigation controlpanel
+  [keul]
+- Added option for visibility condition of the action
+  [keul]
 
 0.3.0 (2013-01-15)
 ------------------

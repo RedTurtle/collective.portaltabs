@@ -122,9 +122,9 @@ TODO
 Bug report and feature request
 ==============================
 
-Please, go to the `product's issue tracker`__ on plone.org website.
+Please, go to the `product's issue tracker`__.
 
-__ http://plone.org/products/collective.portaltabs/issues/
+__ https://github.com/RedTurtle/collective.portaltabs/issues
 
 Credits
 =======

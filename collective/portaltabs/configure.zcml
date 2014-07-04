@@ -22,6 +22,10 @@
         id="collective.portaltabs.ManageTabsCategories"
         title="collective.portaltabs: Manage action categories"
      />
+  <permission
+        id="collective.portaltabs.ManageConditionExpression"
+        title="collective.portaltabs: Manage tab condition expression"
+     />
 
   <include package=".browser" />
 
@@ -41,14 +45,6 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
-  <genericsetup:upgradeStep
-        title="Upgrade collective.portaltabs"
-        description="Migrates collective.portaltabs to 0.3"
-        source="1000"
-        destination="2000"
-        handler=".setuphandlers.migrateTo2000"
-        sortkey="1"
-        profile="collective.portaltabs:default"
-    />
+  <include file="upgrades.zcml" />
 
 </configure>

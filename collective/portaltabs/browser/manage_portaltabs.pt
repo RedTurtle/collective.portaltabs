@@ -38,7 +38,8 @@
                 Be aware that the &quot;Automatically generate tabs &quot; option is selected.
                 You will not be able to handle tabs automatically generated.
             </span><br/>
-            <a tal:attributes="href string:${context/absolute_url}/prefs_navigation_form" i18n:translate="link_portaltabs_foldersection">
+            <a tal:attributes="href string:${context/absolute_url}/@@navigation-controlpanel"
+               i18n:translate="link_portaltabs_foldersection">
                 Go to the Navigation Settings
             </a>
         </dd>
@@ -64,7 +65,7 @@
                 <span tal:omit-tag="" i18n:translate="help_xml_upload_warning">
                     Be aware that only <a tal:attributes="href string:${context/portal_url}/@@manage-portaltabs-categories"
                                           i18n:name="help_xml_upload_link"
-										  tal:omit-tag="not:view/check_canPortalTabSettings"
+                                          tal:omit-tag="not:view/check_canPortalTabSettings"
                                           i18n:translate="">managed categories</a> will be taken.
                 </span>
             </div>
@@ -92,21 +93,21 @@
             <legend tal:content="action/title"
                     tal:attributes="id string:fieldsetlegend-${action/id}">Portal tabs</legend>
             
-			<input type="hidden" name="action:list" tal:attributes="value action/id" />
+            <input type="hidden" name="action:list" tal:attributes="value action/id" />
 
-			<!-- tab sequence -->
+            <!-- tab sequence -->
             <tal:tabs repeat="tab tabs">
             <div tal:define="ind repeat/tab/number;
                              even repeat/tab/even;
-							 errs python:view.errs.get(action.get('id')+'|'+tab.get('id'));
-							 req python:view.saveRequest.get(action.get('id')+'|'+tab.get('id'));"
+                             errs python:view.errs.get(action.get('id')+'|'+tab.get('id'));
+                             req python:view.saveRequest.get(action.get('id')+'|'+tab.get('id'));"
                  tal:attributes="class python:'tabSetup ' + (even and 'odd' or 'even')"
-				 tal:condition="python:view.canSeeRow(tab)">
+                 tal:condition="python:view.canSeeRow(tab)">
                 <label class="tabTitle" tal:attributes="for string:category-${tab/id}-tab-$ind-id;" tal:content="tab/id">Home</label>
                 <input type="hidden" name="id:list"
                        tal:attributes="value string:${action/id}|${tab/id};id string:tab-$ind-id;" />
                 <div class="field"
-				     tal:attributes="class python: errs and errs.get('title') and 'field error' or 'field'">
+                     tal:attributes="class python: errs and errs.get('title') and 'field error' or 'field'">
                     <label tal:attributes="for string:category-${tab/id}-tab-$ind-title;" i18n:translate="">Title</label>
                    <span class="fieldRequired" title="Required"
                          i18n:domain="plone"
@@ -119,10 +120,10 @@
                    </div>
                     <input type="text" size="50" name="title:list"
                            tal:attributes="value req/title|tab/title;
-						                   id string:category-${tab/id}-tab-$ind-title;" />
+                                           id string:category-${tab/id}-tab-$ind-title;" />
                 </div>
                 <div class="field"
-				     tal:attributes="class python: errs and errs.get('url') and 'field error' or 'field'">
+                     tal:attributes="class python: errs and errs.get('url') and 'field error' or 'field'">
                     <label tal:attributes="for string:category-${tab/id}-tab-$ind-url;" i18n:translate="">URL</label>
                    <span class="fieldRequired" title="Required"
                          i18n:domain="plone"
@@ -135,37 +136,50 @@
                    </div>
                     <input type="text" size="50" name="url:list" id="url"
                            tal:attributes="value req/url|tab/url;
-						                   id string:category-${tab/id}-tab-$ind-url;" />
+                                           id string:category-${tab/id}-tab-$ind-url;" />
                 </div>
                 <div class="field">
                     <input type="checkbox" name="visible"
                            tal:attributes="id string:category-${tab/id}-tab-$ind-visible;checked python:tab['visible'] and True or False;value string:${action/id}|${tab/id}" />
                            <label tal:attributes="for string:category-${tab/id}-tab-$ind-visible;" i18n:translate="">Visible?</label>
                 </div>
+                <div class="field"
+                     tal:condition="view/can_manage_visibility_expr"
+                     tal:attributes="class python: errs and errs.get('condition') and 'field error' or 'field'">
+                    <label tal:attributes="for string:category-${tab/id}-tab-$ind-condition;" i18n:translate="">Condition</label>
+                   <div class="fieldErrorBox" tal:condition="errs/condition|nothing"
+                        i18n:translate=""
+                        tal:content="errs/condition">
+                            Error message
+                   </div>
+                    <input type="text" size="50" name="condition:list" id="condition"
+                           tal:attributes="value req/condition|tab/condition;
+                                           id string:category-${tab/id}-tab-$ind-condition;" />
+                </div>
                 <div class="field commands">
                     <a href="" title="Delete this tab" i18n:attributes="title"
                        tal:attributes="onclick string:if (!confirm('${view/confirm_message}')) return false;;;
                                        href string:${context/absolute_url}/@@manage-portaltabs?Delete=${tab/id}&amp;action=${action/id}">
-                        <img src="delete_icon.gif" alt="Delete this tab" i18n:attributes="alt" />
+                        <img src="++resource++collective.portaltabs.resources/delete_icon.png" alt="Delete this tab" i18n:attributes="alt" />
                     </a>
                     <tal:notfirst condition="not:repeat/tab/start">
                         <a href="" title="Move top" i18n:attributes="title"
                            tal:attributes="href string:${context/absolute_url}/@@manage-portaltabs?move=${tab/id}&amp;where=top&amp;action=${action/id}">
-                            <img src="arrowTop.gif" alt="Move top" i18n:attributes="alt" />
+                            <img src="++resource++collective.portaltabs.resources/arrowTop.png" alt="Move top" i18n:attributes="alt" />
                         </a>
                         <a href="" title="Move up" i18n:attributes="title"
                            tal:attributes="href string:${context/absolute_url}/@@manage-portaltabs?move=${tab/id}&amp;where=up&amp;action=${action/id}">
-                            <img src="arrowUp.gif" alt="Move up" i18n:attributes="alt" />
+                            <img src="++resource++collective.portaltabs.resources/arrowUp.png" alt="Move up" i18n:attributes="alt" />
                         </a>
                     </tal:notfirst>
                     <tal:notlast condition="not:repeat/tab/end">
                         <a href="" title="Move down" i18n:attributes="title"
                            tal:attributes="href string:${context/absolute_url}/@@manage-portaltabs?move=${tab/id}&amp;where=down&amp;action=${action/id}">
-                            <img src="arrowDown.gif" alt="Move down" i18n:attributes="alt" />
+                            <img src="++resource++collective.portaltabs.resources/arrowDown.png" alt="Move down" i18n:attributes="alt" />
                         </a>
                         <a href="" title="Move bottom" i18n:attributes="title"
                            tal:attributes="href string:${context/absolute_url}/@@manage-portaltabs?move=${tab/id}&amp;where=bottom&amp;action=${action/id}">
-                            <img src="arrowBottom.gif" alt="Move bottom" i18n:attributes="alt" />
+                            <img src="++resource++collective.portaltabs.resources/arrowBottom.png" alt="Move bottom" i18n:attributes="alt" />
                         </a>
                     </tal:notlast>
                 </div>
@@ -183,7 +197,7 @@
     <form id="portaltabs_add"
           method="post"
           class="enableUnloadProtection"
-		  tal:define="req view/addRequest"
+          tal:define="req view/addRequest"
           tal:attributes="action string:${context/absolute_url}/@@manage-portaltabs">
         <div>
         <input type="hidden" name="form.submit.add" value="1" />
@@ -195,7 +209,7 @@
                         <select name="action">
                             <option tal:repeat="category categories"
                                     tal:attributes="value category/id;
-									                selected python:request.get('action', '')==category['id'];"
+                                                    selected python:request.get('action', '')==category['id'];"
                                     tal:content="category/title"></option>
                         </select>
                         <div class="formHelp" i18n:translate="help_portaltabs_categorysel">
@@ -249,6 +263,21 @@
                         </div>
                         <input type="text" size="50" name="id" id="id"
                                tal:attributes="value req/id|nothing"/>
+                    </div>
+                    <div class="field"
+                         tal:condition="view/can_manage_visibility_expr"
+                         tal:attributes="class python: errs and errs.get('condition') and 'field error' or 'field'">
+                       <label for="condition" i18n:translate="">Condition</label>
+                        <div class="formHelp" i18n:translate="help_portaltabs_condition">
+                            TAL expression for visibility condition
+                        </div>
+                        <div class="fieldErrorBox" tal:condition="errs/condition|nothing"
+                             i18n:translate=""
+                             tal:content="errs/condition">
+                                 Error message
+                        </div>
+                        <input type="text" size="50" name="condition" id="condition"
+                               tal:attributes="value req/condition|nothing"/>
                     </div>
                 </div>
 
