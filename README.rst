@@ -141,10 +141,13 @@ Developed with the support of:
   .. image:: http://www.ausl.fe.it/logo_ausl.gif
      :alt: Azienda USL logo
 
+* `University of Padova - Department of Management and Engineering`__
+
 All of them supports the `PloneGov initiative`__.
 
 __ http://www.ospfe.it/
 __ http://www.ausl.fe.it/
+__ http://www.unipd.it/international-area/node/84
 __ http://www.plonegov.it/
 
 Authors

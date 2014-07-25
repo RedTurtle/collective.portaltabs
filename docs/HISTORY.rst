@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.4.0 (unreleased)
+0.4.0 (2014-07-25)
 ------------------
 
 - Restored controlpanel icons no more delivered by Plone 4.3
