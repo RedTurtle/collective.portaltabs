@@ -8,7 +8,6 @@ from Products.CMFCore.ActionInformation import Action
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import getFSVersionTuple
 from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.portaltabs import config
 from collective.portaltabs import messageFactory as _
 from collective.portaltabs.interfaces import IPortalTabsSettings

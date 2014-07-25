@@ -1,17 +1,11 @@
 # -*- coding: utf-8 -*-
 
-#from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
 from Products.statusmessages.interfaces import IStatusMessage
-
-from plone.app.registry.browser import controlpanel
-
-from z3c.form import button
-from z3c.form import group
-from z3c.form import field
-
-from collective.portaltabs.interfaces import IPortalTabsSettings
 from collective.portaltabs import messageFactory as _
+from collective.portaltabs.interfaces import IPortalTabsSettings
+from plone.app.registry.browser import controlpanel
+from z3c.form import button
+
 
 class PortalTabsSettingsControlPanelEditForm(controlpanel.RegistryEditForm):
     """collective.portaltabs settings form.
